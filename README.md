@@ -20,3 +20,7 @@ To this, Claude basically answered this options:
 * flex-grow: Defines how much of the remaining space each item is going to fill.
 * flex-shrink: Determines how much the element shrinks if there is not enough space.
 * aspect-ratio: Determines the size of an item using proportions.
+
+> _"que pasa si el diseñador nos cambia el layout? se podría cambiar con su codigo actual? o tomaria mas tiempo el refactor?_
+
+That's a good question. Right now, with the new changes, I need to change the perception I had of the blue section and treat it as a header. So it's not a small change, but is not a total refactor neither. In the end I had to add the header tag and remove the "main-header" class I had. Also I had to add 2 divs for the purple boxes and to finish I removed the "aspect-ratio" prop of the pink boxes because it was forcing the boxes to have certain form, and by default, certain size, so it was leaving no space for the purple boxes.
