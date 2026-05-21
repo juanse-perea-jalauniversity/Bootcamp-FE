@@ -1,5 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { RecipeModel } from './models';
+import { basicSalad, pastaCarbonara } from './mock-recipes';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +11,13 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('My Recipe Box Signal');
-  protected viewRecipe(): void {
-    console.log("Viewing Italian Recipes...")
+  protected readonly recipe = signal<RecipeModel>(basicSalad);
+  protected switchToCarbonara(): void {
+    console.log("Viewing carbonara...")
+    this.recipe.set(pastaCarbonara)
   }
-  protected viewIngredients(): void {
-    console.log("Tomatoes, garlic, onion...")
+  protected switchToSalad(): void {
+    console.log("Viewing salad...")
+    this.recipe.set(basicSalad)
   }
 }
