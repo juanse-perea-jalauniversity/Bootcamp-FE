@@ -20,4 +20,14 @@ export class App {
     console.log("Viewing salad...")
     this.recipe.set(basicSalad)
   }
+
+  protected doubleIngredients(): void {
+      this.recipe.update(currentRecipe => ({
+        ...currentRecipe,
+        ingredients: currentRecipe.ingredients.map(ing => ({
+          ...ing,
+          quantity: ing.quantity * 2
+        }))
+      }));
+    }
 }
