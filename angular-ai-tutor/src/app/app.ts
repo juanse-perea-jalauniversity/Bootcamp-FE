@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RecipeModel } from './models';
 import { basicSalad, pastaCarbonara } from './mock-recipes';
@@ -22,12 +22,16 @@ export class App {
   }
 
   protected doubleIngredients(): void {
-      this.recipe.update(currentRecipe => ({
-        ...currentRecipe,
-        ingredients: currentRecipe.ingredients.map(ing => ({
-          ...ing,
-          quantity: ing.quantity * 2
-        }))
-      }));
-    }
+    this.recipe.update(currentRecipe => ({
+      ...currentRecipe,
+      ingredients: currentRecipe.ingredients.map(ing => ({
+        ...ing,
+        quantity: ing.quantity * 2
+      }))
+    }));
+  }
+
+  protected readonly totalIngredientsQuantity = computed(() => {
+    return this.recipe().ingredients.reduce((sum, ing) => sum + ing.quantity, 0)
+  })
 }
