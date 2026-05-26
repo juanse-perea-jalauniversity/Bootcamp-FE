@@ -1,47 +1,29 @@
-import { RecipeModel } from "./models";
+import { RecipeModel } from './models';
 
-export const basicSalad: RecipeModel = {
-	id: 1,
-	name: "Basic salad",
-	description: "Delicious salad",
-	ingredients: [
-		{
-			name: "Lettuce",
-			quantity: 1,
-			unit: "lb"
-		},
-		{
-			name: "Tomatoe",
-			quantity: 1,
-			unit: "sliced tomato"
-		},
-		{
-			name: "Carrot",
-			quantity: 1,
-			unit: "lb"
-		},
-	]
-};
-
-export const pastaCarbonara: RecipeModel = {
-	id: 2,
-	name: "Pasta Carbonara",
-	description: "A classic rich and creamy Roman pasta dish",
-	ingredients: [
-		{
-			name: "Pasta",
-			quantity: 200,
-			unit: "g"
-		},
-		{
-			name: "Guanciale or Bacon",
-			quantity: 100,
-			unit: "g"
-		},
-		{
-			name: "Egg",
-			quantity: 2,
-			unit: "pcs"
-		}
-	]
-};
+export const MOCK_RECIPES: RecipeModel[] = [
+	{
+		id: 1,
+		name: 'Spaghetti Carbonara',
+		description: 'A classic Italian pasta dish.',
+		imgUrl: '/spaghetti-carbonara.png',
+		ingredients: [
+			{ name: 'Spaghetti', quantity: 200, unit: 'g' },
+			{ name: 'Guanciale', quantity: 100, unit: 'g' },
+			{ name: 'Egg Yolks', quantity: 4, unit: 'each' },
+			{ name: 'Pecorino Romano Cheese', quantity: 50, unit: 'g' },
+			{ name: 'Black Pepper', quantity: 1, unit: 'tsp' },
+		],
+	},
+	{
+		id: 2,
+		name: 'Caprese Salad',
+		description: 'A simple and refreshing Italian salad.',
+		imgUrl: '/caprese-salad.png',
+		ingredients: [
+			{ name: 'Tomatoes', quantity: 4, unit: 'each' },
+			{ name: 'Fresh Mozzarella', quantity: 200, unit: 'g' },
+			{ name: 'Fresh Basil', quantity: 1, unit: 'bunch' },
+			{ name: 'Extra Virgin Olive Oil', quantity: 2, unit: 'tbsp' },
+		],
+	},
+];

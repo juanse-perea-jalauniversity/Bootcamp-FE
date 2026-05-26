@@ -1,20 +1,29 @@
 <main>
   <h1>{{ title() }}</h1>
 
-  <h1>{{ recipe().name }}</h1>
-  <p>{{ recipe().description }}</p>
+  <section>
+    <img [src]="recipe().imgUrl" alt="recipe photo" class="recipe-photo">
+    <h2>{{ recipe().name }}</h2>
+    <p>{{ recipe().description }}</p>
 
+    <div>
+      <button (click)="switchToCarbonara()">View Carbonara</button>
+      <button (click)="switchToSalad()">View Salad</button>
+    </div>
+
+    <div>
+      <h3>Servings: {{ servings() }}</h3>
+      <button (click)="decrementServings()">-</button>
+      <button (click)="incrementServings()">+</button>
+    </div>
+
+    <h3>Ingredients:</h3>
+    <ul>
+      @for (ing of adjustedIngredients(); track ing.name) {
+        <li>{{ ing.quantity }} {{ ing.unit }} of {{ ing.name }}</li>
+      }
+    </ul>
+  </section>
 </main>
-
-<button (click)="switchToCarbonara()">View carbonara</button>
-<button (click)="switchToSalad()">View salad</button>
-<ul>
-  @for (ing of recipe().ingredients; track ing.name) {
-  <li>{{ ing.quantity }} {{ ing.unit }} of {{ ing.name }}</li>
-  }
-</ul>
-
-<button (click)="doubleIngredients()">Double Ingredients Portion</button>
-<p><strong>Total amount of ingredients needed: </strong>{{ totalIngredientsQuantity() }}</p>
 
 <router-outlet />
