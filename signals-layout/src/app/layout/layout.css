@@ -24,6 +24,11 @@ main {
 	flex: 1;
 }
 
+.collapsed-sidebar {
+	background-color: #02ffc6;
+	flex: 0.2;
+}
+
 .main-body {
 	flex: 2.5;
 	display: flex;

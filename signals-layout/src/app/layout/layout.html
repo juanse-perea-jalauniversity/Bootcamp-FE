@@ -1,7 +1,9 @@
 <body>
   <header></header>
   <main>
-    <div class="sidebar"></div>
+    <div [class]="sideBarClass()">
+      <button (click)="collapse()">Collapse</button>
+    </div>
     <div class="main-body">
       <div class="main-article">
         <div class="light-purple-bar"></div>
