@@ -24,9 +24,15 @@ main {
 	flex: 1;
 }
 
+@media (max-width: 900px) {
+	.sidebar {
+		flex: 0.1;
+	}
+}
+
 .collapsed-sidebar {
 	background-color: #02ffc6;
-	flex: 0.2;
+	flex: 0.1;
 }
 
 .main-body {
