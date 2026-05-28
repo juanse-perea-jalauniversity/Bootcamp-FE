@@ -6,55 +6,50 @@ body {
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
+	background-color: dodgerblue;
+	border: 0.5rem solid aquamarine;
+	justify-content: space-around;
+	gap: 1rem;
+	padding: 0.5rem;
 }
 
-header {
-	flex: 1;
-	background-color: #02ffff;
-}
-
-main {
-	display: flex;
-	flex-direction: row;
-	flex: 3;
-}
-
-.sidebar {
-	background-color: #02ffc6;
-	flex: 1;
-}
-
-.main-body {
-	flex: 2.5;
-	display: flex;
-	flex-direction: column;
-}
-
-.main-article {
-	background-color: gainsboro;
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
-}
-
-.light-purple-bar {
-	background-color: #a4c2f4;
-	flex-grow: 1;
-}
-
-.purple-bar {
-	background-color: #674ea7;
-	flex-grow: 1;
-}
-
-.boxes-container {
-	display: flex;
-	flex-direction: row;
+.header-box {
+	border: 0.5rem solid aquamarine;
+	margin: 2rem 1rem 0;
 	flex-grow: 2;
 }
 
-.box {
-	background-color: deeppink;
+.subtitle-box {
+	border: 0.5rem solid aquamarine;
+	margin-left: 2rem;
+	margin-right: 2rem;
 	flex-grow: 1;
-	margin: 2em;
+}
+
+.section-box {
+	border: 0.5rem solid #ba388f;
+	margin-left: 2rem;
+	margin-right: 2rem;
+	flex-grow: 8;
+}
+
+.container-box {
+	border: 0.5rem solid aquamarine;
+	margin-left: 1rem;
+	margin-right: 1rem;
+	flex-grow: 4;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 1rem;
+}
+
+.big-box {
+	border: 0.5rem solid #ba388f;
+	flex-grow: 3;
+}
+
+.small-box {
+	border: 0.5rem solid #ba388f;
+	flex-grow: 1;
 }
