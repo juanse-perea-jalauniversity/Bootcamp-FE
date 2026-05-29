@@ -1,0 +1,95 @@
+* {
+	margin: 0;
+}
+
+.main-container {
+	height: 90vh;
+	background-color: #fff;
+	display: grid;
+	grid-template-columns: 1fr 3fr 1fr;
+	padding: 1rem;
+}
+
+.left-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: repeat(6, 1fr);
+	grid-template-areas: 
+	" . card"
+	" . card"
+	" deck card"
+	" . card"
+	" . card"
+	" . card"
+	;
+	gap: 0.5rem;
+}
+
+.card {
+	background-color: blueviolet;
+	border: 0.5rem solid black;
+	grid-area: card;
+}
+
+.deck {
+	background-color: blue;
+	border: 0.5rem solid black;
+	grid-area: deck;
+}
+
+.right-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: repeat(6, 1fr);
+	grid-template-areas: 
+	" card . "
+	" card . "
+	" card . "
+	" card deck "
+	" card . "
+	" card . "
+	;
+	gap: 0.5rem;
+}
+
+.center-container {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 2fr 1.5fr 2fr 1fr;
+	grid-template-areas: 
+	"."
+	"card-zone-1"
+	"."
+	"card-zone-2"
+	".";
+	padding: 1rem;
+}
+
+.card-zone-1 {
+	grid-area: card-zone-1;
+	background-color: aqua;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: 1fr 1fr;
+	grid-template-areas: 
+	"card-slot card-slot card-slot card-slot card-slot"
+	"card-slot card-slot card-slot card-slot card-slot"
+	;
+}
+
+.card-zone-2 {
+	grid-area: card-zone-2;
+	background-color: red;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: 1fr 1fr;
+	grid-template-areas: 
+	"card-slot card-slot card-slot card-slot card-slot"
+	"card-slot card-slot card-slot card-slot card-slot"
+	;
+}
+
+.card-slot {
+	grid-area: card-slot;
+	border: 0.5px solid black;
+}
