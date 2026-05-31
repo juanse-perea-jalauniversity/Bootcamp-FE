@@ -1,24 +1,27 @@
 <section class="recipe-detail-section">
-    <img [src]="recipe().imgUrl" alt="recipe photo" class="recipe-photo">
-    <h2 class="recipe-title">
-      {{ recipe().name }}
-    </h2>
-    <p class="recipe-description">
-      {{ recipe().description }}
-    </p>
+  <img [src]="recipe().imgUrl" alt="recipe photo" class="recipe-photo">
+  <h2 class="recipe-title">
+    {{ recipe().name }}
+    @if (recipe().isFavorite) {
+    <span>★</span>
+    }
+  </h2>
+  <p class="recipe-description">
+    {{ recipe().description }}
+  </p>
 
-    <div class="recipe-servings">
-      <h3>Servings: {{ servings() }}</h3>
-      <button (click)="decrementServings()">-</button>
-      <button (click)="incrementServings()">+</button>
-    </div>
+  <div class="recipe-servings">
+    <h3>Servings: {{ servings() }}</h3>
+    <button (click)="decrementServings()">-</button>
+    <button (click)="incrementServings()">+</button>
+  </div>
 
-    <div class="recipe-ingredients">
-      <h3>Ingredients:</h3>
-      <ul>
-        @for (ing of adjustedIngredients(); track ing.name) {
-          <li>{{ ing.quantity }} {{ ing.unit }} of {{ ing.name }}</li>
-        }
-      </ul>
-    </div>
-  </section>
+  <div class="recipe-ingredients">
+    <h3>Ingredients:</h3>
+    <ul>
+      @for (ing of adjustedIngredients(); track ing.name) {
+      <li>{{ ing.quantity }} {{ ing.unit }} of {{ ing.name }}</li>
+      }
+    </ul>
+  </div>
+</section>

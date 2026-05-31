@@ -12,6 +12,7 @@ import { RecipeDetail } from "../recipe-detail/recipe-detail";
 export class RecipeList {
   protected readonly title = signal('My Recipe Box Signal');
   protected readonly recipe = signal<RecipeModel>(MOCK_RECIPES[0]);
+  protected readonly recipes = MOCK_RECIPES;
 
   protected switchToCarbonara(): void {
     this.recipe.set(MOCK_RECIPES[0]);
