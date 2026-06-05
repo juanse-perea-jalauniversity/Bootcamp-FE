@@ -52,7 +52,11 @@ export class Layout {
   }
 
   // Usage 3: Dynamically render form error messages 
-
+  inputErrors = {
+    "required": "This filed is required",
+    "minLength": "The minimum length is 10",
+    "invalid": "Invalid email"
+  }
   // --- @for experiment ---
   // items = [12, 43, 1213, 534234]
   // itemsSignal = signal([12, 43, 1213, 534234])
