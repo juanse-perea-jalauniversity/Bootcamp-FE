@@ -92,3 +92,7 @@ main {
 	grid-area: box4;
 
 }
+
+.inputError {
+	color: red;
+}
