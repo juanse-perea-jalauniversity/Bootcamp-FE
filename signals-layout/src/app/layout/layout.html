@@ -1,6 +1,7 @@
 <body class="body" [class.sidebar-collapsed]="isCollapsed()">
   <header>
     <h1>
+      <!-- {{ title | slice:0:50 }}... -->
       {{ title | slice:0:(isShowingMore() ? title.length : 50) }}{{isShowingMore() ? "" : "..."}}
     </h1>
     <button (click)="toggleShowMore()">Show {{isShowingMore() ? "less" : "more"}}</button>
@@ -9,7 +10,7 @@
     <button (click)="previousPage()">Previous page</button>
     <button (click)="nextPage()">Next page</button>
     <div> ======================== </div>
-    @for (item of products | keyvalue; track $index) {
+    @for (item of products | keyvalue:null; track $index) {
     <h3>{{item.key}}</h3>
     <ul>
       @for (product of item.value; track $index) {
