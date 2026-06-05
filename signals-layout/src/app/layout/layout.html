@@ -1,8 +1,7 @@
 <body class="body" [class.sidebar-collapsed]="isCollapsed()">
   <header>
     <h1>
-      {{ title |
-      slice:0:(isShowingMore() ? title.length : 50) }}{{isShowingMore() ? "" : "..."}}
+      {{ title | slice:0:(isShowingMore() ? title.length : 50) }}{{isShowingMore() ? "" : "..."}}
     </h1>
     <button (click)="toggleShowMore()">Show {{isShowingMore() ? "less" : "more"}}</button>
     <div> ======================== </div>
@@ -11,27 +10,27 @@
     <button (click)="nextPage()">Next page</button>
     <div> ======================== </div>
     @for (item of products | keyvalue; track $index) {
-      <h3>{{item.key}}</h3>
-      <ul>
-        @for (product of item.value; track $index) {
-          <li>{{product}}</li>
-        }
-      </ul>
+    <h3>{{item.key}}</h3>
+    <ul>
+      @for (product of item.value; track $index) {
+      <li>{{product}}</li>
+      }
+    </ul>
     }
     <div> ======================== </div>
     <table>
       @for (conf of config | keyvalue; track $index) {
-        <tr>
-          <td>{{ conf.key }}</td>
-          <td>{{ conf.value }}</td>
-        </tr>
+      <tr>
+        <td>{{ conf.key }}</td>
+        <td>{{ conf.value }}</td>
+      </tr>
       }
     </table>
     <div> ======================== </div>
     <label for="email">email</label>
     <input id="email" type="text">
     @for (error of inputErrors | keyvalue: null; track $index) {
-      <p class="inputError">{{error.value}}</p>
+    <p class="inputError">{{error.value}}</p>
     }
   </header>
   <div class="sidebar">
