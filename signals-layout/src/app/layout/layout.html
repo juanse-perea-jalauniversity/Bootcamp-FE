@@ -1,5 +1,14 @@
 <body class="body" [class.sidebar-collapsed]="isCollapsed()">
-  <header></header>
+  <header>
+    <h1>
+      {{ title |
+      slice:0:(isShowingMore() ? title.length : 50) }}{{isShowingMore() ? "" : "..."}}
+    </h1>
+    <button (click)="toggleShowMore()">Show {{isShowingMore() ? "less" : "more"}}</button>
+    <p>{{paginationItems() | slice:currentPage():currentPage() + sizePage()}}</p>
+    <button (click)="previousPage()">Previous page</button>
+    <button (click)="nextPage()">Next page</button>
+  </header>
   <div class="sidebar">
     <button (click)="collapse()">Collapse</button>
   </div>
@@ -14,6 +23,7 @@
     </div>
   </main>
 </body>
+<!-- @for experiment -->
 <!-- @for (item of items; track $index) {
   {{log(item)}}
 } -->
