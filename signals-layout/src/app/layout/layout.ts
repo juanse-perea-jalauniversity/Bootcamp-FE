@@ -1,9 +1,9 @@
-import { SlicePipe } from '@angular/common';
+import { KeyValuePipe, SlicePipe } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
 
 @Component({
   selector: 'app-layout',
-  imports: [SlicePipe],
+  imports: [SlicePipe, KeyValuePipe],
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })
@@ -14,7 +14,7 @@ export class Layout {
   protected collapse = () => this.isCollapsed.update(state => !state)
 
   // --- pipes experiment ---
-  // Slice pipe
+  // -- Slice pipe --
   // Usage 1: Limiting some text to fit on container
   // Usage 2: show more/less toggle
   protected isShowingMore = signal(true)
@@ -34,6 +34,24 @@ export class Layout {
   protected nextPage = () => this.currentPage.update(state => Math.min(state + 5, this.paginationItems().length - 1)
   )
   protected previousPage = () => this.currentPage.update(state => Math.max(state - 5, 0))
+
+  // keyvalue pipe
+  // Usage 1: Rendering grouped categories
+  protected products = {
+    "Electronics": ["TV", "Laptop", "iPhone"],
+    "Food": ["Potato chips", "Lettuce", "Hot dogs"],
+    "Clothing": ["Jeans", "Shirt", "Dress"],
+  }
+
+  // Usage 2: render table of config
+  protected config = {
+    theme: "light",
+    language: "es",
+    notifications: true,
+    twoFactorEnabled: true
+  }
+
+  // Usage 3: Dynamically render form error messages 
 
   // --- @for experiment ---
   // items = [12, 43, 1213, 534234]
