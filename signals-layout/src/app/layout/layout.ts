@@ -1,9 +1,10 @@
-import { KeyValuePipe, SlicePipe } from '@angular/common';
+import { AsyncPipe, KeyValuePipe, SlicePipe } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
+import { FallBackPipe } from './FallBackPipe';
 
 @Component({
   selector: 'app-layout',
-  imports: [SlicePipe, KeyValuePipe],
+  imports: [SlicePipe, KeyValuePipe, FallBackPipe, AsyncPipe],
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })
@@ -57,6 +58,8 @@ export class Layout {
     "minLength": "The minimum length is 10",
     "invalid": "Invalid email"
   }
+
+  protected rejectAsync = Promise.reject()
   // --- @for experiment ---
   // items = [12, 43, 1213, 534234]
   // itemsSignal = signal([12, 43, 1213, 534234])

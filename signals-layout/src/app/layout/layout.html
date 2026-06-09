@@ -1,5 +1,6 @@
 <body class="body" [class.sidebar-collapsed]="isCollapsed()">
   <header>
+    <h1>Welcome {{ rejectAsync | async | fallback:"user"}}</h1>
     <h1>
       <!-- {{ title | slice:0:50 }}... -->
       {{ title | slice:0:(isShowingMore() ? title.length : 50) }}{{isShowingMore() ? "" : "..."}}
