@@ -9,24 +9,33 @@
 </head>
 
 <body>
-  <header></header>
-  <main>
-    <div class="sidebar"></div>
-    <div class="main-body">
-      <div class="main-article">
-        <div class="light-purple-bar"></div>
-        <div class="purple-bar"></div>
-        <div class="boxes-container">
-          <div class="box"></div>
-          <div class="box"></div>
-        </div>
-        <div class="boxes-container">
-          <div class="box"></div>
-          <div class="box"></div>
-        </div>
-      </div>
-    </div>
-  </main>
+  <div id="host"></div>
+  <span>I'm not in the shadow DOM</span>
+  <br />
+
+  <button id="upper" type="button">Uppercase shadow DOM span elements</button>
+  <button id="reload" type="button">Reload</button>
+
 </body>
+<script>
+  const host = document.querySelector("#host");
+  const shadow = host.attachShadow({ mode: "closed" });
+  const span = document.createElement("span");
+  span.textContent = "I'm in the shadow DOM";
+  shadow.appendChild(span);
+
+  const upper = document.querySelector("button#upper");
+  upper.addEventListener("click", () => {
+    const spans = Array.from(host.shadowRoot.querySelectorAll("span"));
+    // const spans = Array.from(host.querySelectorAll("span"));
+    console.log(spans)
+    for (const span of spans) {
+      span.textContent = span.textContent.toUpperCase();
+    }
+  });
+
+  const reload = document.querySelector("#reload");
+  reload.addEventListener("click", () => document.location.reload());
+</script>
 
 </html>
