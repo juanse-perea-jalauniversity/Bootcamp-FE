@@ -12,6 +12,16 @@ A shadow DOM has the following concepts/parts:
 
 The elements isnide the shadow tree won't be reachable by methods like "document.querySelectAll()". To reach them, it will only be possible through the shadow host property "shadowRoot", only if the shadow DOM was created as "open". If the shadow DOM is created as "closed", the shadowRoot will evaluate as null.
 
+## 3 Common uses
+
+1. UI component libraries
+2. Embedded Elements
+3. Micro frontend architecture
+
+## Presentation
+
+Link to presentation: [Shadow DOM Canva Presentation](https://canva.link/x8rww5sbjh2xm26)
+
 ## Metodology
 
 To fulfill this task, I did a combination of research documentation and prompting LLMs (Gemini)
@@ -20,6 +30,12 @@ Documentation researched: [Official MDN docs](https://developer.mozilla.org/en-U
 
 First prompt:
 
-> _"What is the Shadow Dom?"_
+> _"What is the Shadow DOM?"_
 
  Gemini answered with a simplified definition of a Shadow DOM being a standard web api, some basic details and a simple example.
+
+Second prompt:
+
+> _"What are common uses for the Shadow DOM?"_
+
+Gemini answered with some examples that are mentioned on this file and the presentation
