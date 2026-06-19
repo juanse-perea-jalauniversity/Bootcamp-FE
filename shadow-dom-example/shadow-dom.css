@@ -1,0 +1,27 @@
+/* * Example 1 */
+
+span {
+	color: red;
+}
+
+#shadow-span {
+	color: violet;
+}
+
+/* Inherited CSS does affect shadow elements */
+/* body {
+	color: red;
+} */
+
+/* #shadow-host {
+	color: blue
+} */
+
+
+/* * Example 2 */
+
+/* pseudo element inside video tag */
+/* video::-webkit-media-controls-mute-button {
+  background-color: lime;
+  border-radius: 50%;
+} */

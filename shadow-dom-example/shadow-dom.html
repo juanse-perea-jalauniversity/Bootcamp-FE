@@ -1,0 +1,30 @@
+<!-- This file tries to answer 3 questions
+ 1. What is the utility of shadow DOM on HTML
+ 2. Can the parent node styles affect the shadow elements styles?
+ 3. What are the real boundaries of the shadow DOM? in CSS and JS -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shadow DOM examples</title>
+  <link rel="stylesheet" href="./shadow-dom.css">
+</head>
+
+<body>
+  <h1>Shadow DOM examples</h1>
+  <h3>Example 1: Effects between light DOM and Shadow DOM</h3>
+  <span>This span is in the light DOM, page CSS turns it red</span>
+  <br>
+  <!-- <span id="shadow-span">Light DOM version of shadow span</span> -->
+  <br>
+  <div id="shadow-host"></div>
+  <div id="shadow-host2"></div>
+  <!-- <h3>Example 2: HTML video tag</h3> -->
+  <!-- <video id="video" src="./Project-june082026.mp4" width="500" controls></video> -->
+
+  <script src="./shadow-dom.js"></script>
+</body>
+
+</html>
