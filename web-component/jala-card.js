@@ -6,6 +6,7 @@ class JalaCard extends HTMLElement {
   }
 
   connectedCallback() {
+    const imgSrc = this.getAttribute('img-src') ?? './me-anime.png'
     const name = this.getAttribute('name') ?? 'Perea Juan sama'
     const role = this.getAttribute('role') ?? 'Developer'
     const titleColor = this.getAttribute('title-color') ?? '#fff'
@@ -83,7 +84,7 @@ class JalaCard extends HTMLElement {
         <img class="jala-logo" src="jala-logo.jpg" alt="jalasoft-logo">
       </div>
       <div class="content">
-        <img class="id-photo" src="./me-anime.png" alt="me">
+        <img class="id-photo" src=${imgSrc} alt="me">
         <p class="name">${name}</p>
       </div>
       <div class="footer">
