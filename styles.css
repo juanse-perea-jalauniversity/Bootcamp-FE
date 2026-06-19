@@ -2,59 +2,33 @@
 	margin: 0;
 }
 
-body {
+.card-container {
 	height: 100vh;
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr;
+	grid-area: 'jala-card';
 }
 
-header {
+.jala-card {
+	grid-area: 'jala-card';
+	display: flex;
+	flex-direction: column;
 	flex: 1;
-	background-color: #02ffff;
+	border: 1rem solid black;
 }
 
-main {
-	display: flex;
-	flex-direction: row;
-	flex: 3;
-}
-
-.sidebar {
-	background-color: #02ffc6;
+.title {
 	flex: 1;
+	background-color: #fff;
 }
 
-.main-body {
-	flex: 2.5;
-	display: flex;
-	flex-direction: column;
+.content {
+	flex: 4;
+	background-color: #282828;
 }
 
-.main-article {
-	background-color: gainsboro;
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
-}
-
-.light-purple-bar {
-	background-color: #a4c2f4;
-	flex-grow: 1;
-}
-
-.purple-bar {
-	background-color: #674ea7;
-	flex-grow: 1;
-}
-
-.boxes-container {
-	display: flex;
-	flex-direction: row;
-	flex-grow: 2;
-}
-
-.box {
-	background-color: deeppink;
-	flex-grow: 1;
-	margin: 2em;
+.footer {
+	flex: 0.8;
+	background-color: #ee283f;
 }
