@@ -6,6 +6,7 @@ class JalaCard extends HTMLElement {
   }
 
   connectedCallback() {
+    // Get attributes and set on template
     const imgSrc = this.getAttribute('img-src') ?? './me-anime.png';
     const name = this.getAttribute('name') ?? 'Perea Juan sama';
     const role = this.getAttribute('role') ?? 'Senior Architect';
@@ -22,6 +23,15 @@ class JalaCard extends HTMLElement {
 
     this._root.appendChild(cardTemplate);
 
+    // Add remove button
+    const removeCard = this._root.querySelector("#remove-card");
+    removeCard.addEventListener('click', () => {
+      this.remove()
+    })
+  }
+
+  disconnectedCallback() {
+    console.log("Jala Card was dismounted")
   }
 }
 

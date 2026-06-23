@@ -37,15 +37,33 @@
 	padding: 2rem 0 2rem;
 }
 
+/* * testing using flex to fit image */
+/* #photo-container {
+	flex: 0.6;
+	display: flex;
+	flex-direction: row;
+} */
+
+/* #photo-left-space {
+	flex: 1;
+}
+
+#photo-right-space {
+	flex: 1;
+} */
+
 .id-photo {
 	border-radius: 20%;
-	/* It recalculates size after being distributed on the layout */
+	/* zoom recalculates size after being distributed on the layout */
 	/* zoom: 0.6; */
-	/* It only changes visually but the layout keeps the original distribution */
+	/* transform scale only changes visually but the layout keeps the original distribution */
 	/* transform: scale(0.6);  */
 	/* * width (with %) and height (with auto) combined keep responsiveness and proportions */
 	width: 70%;
 	height: auto; 
+	/* * trying to use flex */
+	/* flex: 2; */
+	/* object-fit: cover; */
 }
 
 .name {
