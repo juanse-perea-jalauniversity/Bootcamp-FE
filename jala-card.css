@@ -39,7 +39,13 @@
 
 .id-photo {
 	border-radius: 20%;
-	zoom: 0.6; /* how to change image size? */
+	/* It recalculates size after being distributed on the layout */
+	/* zoom: 0.6; */
+	/* It only changes visually but the layout keeps the original distribution */
+	/* transform: scale(0.6);  */
+	/* * width (with %) and height (with auto) combined keep responsiveness and proportions */
+	width: 70%;
+	height: auto; 
 }
 
 .name {
