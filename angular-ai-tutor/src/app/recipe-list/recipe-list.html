@@ -1,15 +1,14 @@
 <main>
   <h1>{{ title() }}</h1>
 
+  <input type="text" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" />
   <div class="switch-buttons">
-      <button (click)="switchToCarbonara()">
-    View Carbonara
-    @if (recipes[0].isFavorite) { <span>★</span> }
-  </button>
-  <button (click)="switchToSalad()">
-    View Salad
-    @if (recipes[1].isFavorite) { <span>★</span> }
-  </button>
+    @for (rec of filteredRecipes(); track rec.id) {
+    <button (click)="recipe.set(rec)">
+      View {{rec.name}}
+      @if (rec.isFavorite) { <span>★</span> }
+    </button>
+    }
   </div>
   <br>
 
