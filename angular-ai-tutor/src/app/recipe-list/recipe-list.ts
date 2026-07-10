@@ -1,8 +1,9 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RecipeModel } from '../models';
 import { MOCK_RECIPES } from '../mock-recipes';
 import { RecipeDetail } from "../recipe-detail/recipe-detail";
 import { FormsModule } from '@angular/forms';
+import { Recipe } from '../recipe';
 
 @Component({
   selector: 'app-recipe-list',
@@ -13,9 +14,9 @@ import { FormsModule } from '@angular/forms';
 export class RecipeList {
   protected readonly title = signal('My Recipe Box Signal');
   protected readonly recipe = signal<RecipeModel>(MOCK_RECIPES[0]);
-  protected readonly recipes = MOCK_RECIPES;
   protected readonly searchTerm = signal("")
-  protected readonly filteredRecipes = computed(() => this.recipes.filter(rec => rec.name.toLowerCase().includes(this.searchTerm().toLowerCase())))
+  private readonly recipeService = inject(Recipe)
+  protected readonly filteredRecipes = computed(() => this.recipeService.recipes.filter(rec => rec.name.toLowerCase().includes(this.searchTerm().toLowerCase())))
 
   // protected switchToCarbonara(): void {
   //   this.recipe.set(MOCK_RECIPES[0]);
