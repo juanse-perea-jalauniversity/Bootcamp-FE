@@ -1,0 +1,9 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'card-grid',
+  imports: [],
+  templateUrl: './card-grid.html',
+  styleUrl: './card-grid.css',
+})
+export class CardGrid {}
