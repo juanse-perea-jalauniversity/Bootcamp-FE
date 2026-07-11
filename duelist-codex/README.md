@@ -1,59 +1,24 @@
 # DuelistCodex
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.11.
+## HU-01 — Ver catálogo de cartas
 
-## Development server
+> Como duelista que abre la aplicación, quiero ver una grilla con las cartas disponibles, incluyendo su imagen, nombre y tipo, para poder explorar el catálogo general antes de buscar algo específico. **Criterios de aceptación**:
+> * Al cargar la vista principal se muestra un conjunto de cartas obtenidas desde la API de YGOPRODeck.
+> * Cada carta en la grilla muestra al menos su imagen, nombre y tipo.
+> * Si por alguna razón no hay cartas para mostrar, la persona usuaria ve un mensaje claro en vez de una pantalla en blanco.
+> * Mientras los datos se están cargando, hay alguna señal visual de que la app está trabajando (no una pantalla congelada o vacía sin explicación).
 
-To start a local development server, run:
 
-```bash
-ng serve
-```
+For the first User Story, I created a Layout component divided in 3: Header, Main and Footer.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The Header will contain the title and search bar, the Main will contain a "card grid" and the Footer will contain the pagination.
 
-## Code scaffolding
+Tasks:
+- [x] Bring api data
+	- [x] Create service
+	- [x] Manual test bringing data
+- [ ] Render single card
+- [ ] Render card grid
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
-```bash
-ng generate component component-name
-```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

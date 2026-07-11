@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { CardGrid } from "../card-grid/card-grid";
 
 @Component({
   selector: 'layout',
-  imports: [],
+  imports: [CardGrid],
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })
