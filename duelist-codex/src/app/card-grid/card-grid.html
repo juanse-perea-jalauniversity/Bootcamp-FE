@@ -1,6 +1,6 @@
 <div class="card-grid">
   @if (cards(); as card) {
-    <card-slot [cardImage]="card[1].card_images[0].image_url"></card-slot>
+    <card-slot [cardInfo]="card[1]"></card-slot>
   } @else {
     <p>Loading...</p>
   }

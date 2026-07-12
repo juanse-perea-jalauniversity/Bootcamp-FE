@@ -1,1 +1,7 @@
-<img [src]="cardImage()" alt="">
+<div class="card-slot">
+  <img [src]="cardInfo().card_images[0].image_url" alt="card-image">
+  <div class="card-footer">
+    <p class="card-name">{{cardInfo().name}}</p>
+    <p class="card-type">{{cardInfo().type}}</p>
+  </div>
+</div>

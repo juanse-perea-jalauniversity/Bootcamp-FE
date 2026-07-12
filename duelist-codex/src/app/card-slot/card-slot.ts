@@ -7,5 +7,5 @@ import { Component, input } from '@angular/core';
   styleUrl: './card-slot.css',
 })
 export class CardSlot {
-  readonly cardImage = input.required<string>();
+  readonly cardInfo = input.required<Card>();
 }
