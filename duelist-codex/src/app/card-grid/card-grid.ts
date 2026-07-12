@@ -16,6 +16,7 @@ export class CardGrid implements OnInit {
 
   readonly allCards = signal<Card[]>([]);
   readonly currentPage = signal(1);
+  readonly loading = signal(true);
 
   readonly cards = computed(() => {
     const start = (this.currentPage() - 1) * PAGE_SIZE;
@@ -28,7 +29,10 @@ export class CardGrid implements OnInit {
 
   ngOnInit(): void {
     this.#cardService.getYuGiOhCards()
-      .subscribe(res => this.allCards.set(res.data ?? []))
+      .subscribe(res => {
+        this.allCards.set(res.data ?? []);
+        this.loading.set(false);
+      })
   }
 
   onPageChange(page: number): void {

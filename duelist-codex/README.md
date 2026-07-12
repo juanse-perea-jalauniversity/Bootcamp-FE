@@ -20,9 +20,9 @@ Tasks:
 	- [x] Create service
 	- [x] Test bringing data
 - [x] Render single card
-- [ ] Render card grid
-- [ ] Render empty grid message
-- [ ] Render loading message/icon
+- [x] Render card grid
+- [x] Render empty grid message
+- [x] Render loading message/icon
 
 
 

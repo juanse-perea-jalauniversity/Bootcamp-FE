@@ -1,8 +1,12 @@
 <div class="card-grid">
-  @for (card of cards(); track card.id) {
-    <card-slot [cardInfo]="card"></card-slot>
-  } @empty {
+  @if (loading()) {
     <p>Loading...</p>
+  } @else if (cards().length === 0) {
+    <p>No se encontraron cartas.</p>
+  } @else {
+    @for (card of cards(); track card.id) {
+      <card-slot [cardInfo]="card"></card-slot>
+    }
   }
 </div>
 
