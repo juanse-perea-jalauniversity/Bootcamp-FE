@@ -9,3 +9,7 @@
 .title-second-color {
 	color: var(--accent);
 }
+
+main {
+	padding: 1rem;
+}

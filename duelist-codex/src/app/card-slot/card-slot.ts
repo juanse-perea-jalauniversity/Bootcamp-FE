@@ -1,8 +1,9 @@
+import { SlicePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'card-slot',
-  imports: [],
+  imports: [SlicePipe],
   templateUrl: './card-slot.html',
   styleUrl: './card-slot.css',
 })

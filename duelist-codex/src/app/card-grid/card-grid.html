@@ -1,7 +1,15 @@
 <div class="card-grid">
-  @if (cards(); as card) {
-    <card-slot [cardInfo]="card[1]"></card-slot>
-  } @else {
+  @for (card of cards(); track card.id) {
+    <card-slot [cardInfo]="card"></card-slot>
+  } @empty {
     <p>Loading...</p>
   }
 </div>
+
+@if (allCards().length > 0) {
+  <pagination
+    [currentPage]="currentPage()"
+    [totalPages]="totalPages()"
+    (pageChange)="onPageChange($event)"
+  />
+}

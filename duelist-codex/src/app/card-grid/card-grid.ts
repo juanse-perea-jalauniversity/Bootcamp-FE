@@ -1,21 +1,37 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CardsService } from '../services/card-service/cards-service';
 import { CardSlot } from "../card-slot/card-slot";
+import { Pagination } from "../pagination/pagination";
+
+const PAGE_SIZE = 12;
 
 @Component({
   selector: 'card-grid',
-  imports: [CardSlot],
+  imports: [CardSlot, Pagination],
   templateUrl: './card-grid.html',
   styleUrl: './card-grid.css',
 })
 export class CardGrid implements OnInit {
   readonly #cardService = inject(CardsService)
-  readonly cards = signal<Card[] | null>(null);
+
+  readonly allCards = signal<Card[]>([]);
+  readonly currentPage = signal(1);
+
+  readonly cards = computed(() => {
+    const start = (this.currentPage() - 1) * PAGE_SIZE;
+    return this.allCards().slice(start, start + PAGE_SIZE);
+  });
+
+  readonly totalPages = computed(() =>
+    Math.max(1, Math.ceil(this.allCards().length / PAGE_SIZE)),
+  );
 
   ngOnInit(): void {
-    console.log("On init, fetching cards...")
     this.#cardService.getYuGiOhCards()
-      .subscribe(res => this.cards.set(res.data))
+      .subscribe(res => this.allCards.set(res.data ?? []))
   }
 
+  onPageChange(page: number): void {
+    this.currentPage.set(page);
+  }
 }
