@@ -10,7 +10,7 @@
   }
 </div>
 
-@if (allCards().length > 0) {
+@if (totalPages() > 1) {
   <pagination
     [currentPage]="currentPage()"
     [totalPages]="totalPages()"

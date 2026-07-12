@@ -25,7 +25,7 @@ Tasks:
 - [x] Render card grid
 - [x] Render empty grid message
 - [x] Render loading message/icon
-- [ ] Add pagination using the API query params
+- [x] Add pagination using the API query params
 
 ## HU-02 — Buscar cartas por nombre
 > Como duelista, quiero escribir el nombre (total o parcial) de una carta y obtener los resultados que coincidan, para encontrar rápidamente la carta que quiero revisar sin recorrer todo el catálogo.
@@ -35,8 +35,10 @@ Tasks:
 > * Si la búsqueda no encuentra ninguna carta, se informa explícitamente en vez de mostrar una grilla vacía sin contexto.
 > * Al entrar a la pantalla, el campo de búsqueda queda listo para que la persona usuaria empiece a escribir de inmediato, sin pasos adicionales.
 
-For this step, I decided to separate the search component so the layout reamins clean of logic. Also, the AI recommended using the service also the centralize the search value so even search-bar and card-grid are siblings, I don't need to create a state on layout that is shared, the shared state will live on the service and will be injected on the grid and search bar components.
+For this step, I decided to separate the search component (it was inside the layout) so the layout reamins clean of logic. Also, the AI recommended using the service also the centralize the search value so even search-bar and card-grid are siblings, I don't need to create a state on layout that is shared and drilled to the children, the shared state will live on the service and will be injected on the grid and search bar components.
 
-- [ ] Create the search-bar component
-- [ ] Add "searchValue" signal to be shared for search-bar to update value and grid to show result
+After some analysis, the logic was re arranged and moved to the cards service completely, so now inside the card service all the fetching and filtering is done, besides the change detection, and card-grid and card-slot remain "dumb". Now the initail data load is done on the service **contructor** and the data is refetched every time the page or the search term changes.
+
+- [x] Create the search-bar component
+- [x] Add "searchValue" signal to be shared for search-bar to update value and grid to show result
 

@@ -11,7 +11,7 @@ export class SearchBar {
   #cardService = inject(CardsService)
 
   onChangeSearch(event: Event) {
-    this.#cardService.searchValue.set((event.target as HTMLInputElement).value ?? "")
+    this.#cardService.setSearchTerm((event.target as HTMLInputElement).value)
   }
 
 }
