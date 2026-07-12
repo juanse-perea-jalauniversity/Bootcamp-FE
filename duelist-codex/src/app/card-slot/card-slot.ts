@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'card-slot',
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './card-slot.html',
   styleUrl: './card-slot.css',
 })
-export class CardSlot {}
+export class CardSlot {
+  readonly cardImage = input.required<string>();
+}

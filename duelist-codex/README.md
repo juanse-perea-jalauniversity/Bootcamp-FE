@@ -13,12 +13,16 @@ For the first User Story, I created a Layout component divided in 3: Header, Mai
 
 The Header will contain the title and search bar, the Main will contain a "card grid" and the Footer will contain the pagination.
 
+I want card-slot component to be "dumb", which means only show UI, the one that will get the data on the initial load with ngOnInit and pass to it will be the card-grid.
+
 Tasks:
 - [x] Bring api data
 	- [x] Create service
-	- [x] Manual test bringing data
-- [ ] Render single card
+	- [x] Test bringing data
+- [x] Render single card
 - [ ] Render card grid
+- [ ] Render empty grid message
+- [ ] Render loading message/icon
 
 
 
