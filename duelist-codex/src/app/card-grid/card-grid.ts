@@ -20,7 +20,9 @@ export class CardGrid implements OnInit {
 
   readonly cards = computed(() => {
     const start = (this.currentPage() - 1) * PAGE_SIZE;
-    return this.allCards().slice(start, start + PAGE_SIZE);
+    return this.allCards()
+      .filter(card => card.name.toLowerCase().includes(this.#cardService.searchValue().toLowerCase()))
+      .slice(start, start + PAGE_SIZE);
   });
 
   readonly totalPages = computed(() =>
