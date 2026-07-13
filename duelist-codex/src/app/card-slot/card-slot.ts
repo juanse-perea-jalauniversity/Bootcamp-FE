@@ -1,5 +1,5 @@
 import { SlicePipe } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'card-slot',
@@ -9,4 +9,5 @@ import { Component, input } from '@angular/core';
 })
 export class CardSlot {
   readonly cardInfo = input.required<Card>();
+  readonly cardClick = output<Card>();
 }

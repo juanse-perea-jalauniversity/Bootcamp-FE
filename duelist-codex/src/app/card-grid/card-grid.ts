@@ -20,4 +20,8 @@ export class CardGrid {
   onPageChange(page: number): void {
     this.#cardService.goToPage(page);
   }
+
+  onCardClick(card: Card): void {
+    this.#cardService.selectCard(card);
+  }
 }

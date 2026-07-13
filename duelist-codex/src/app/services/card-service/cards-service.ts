@@ -4,11 +4,6 @@ import { catchError, of } from 'rxjs';
 
 const PAGE_SIZE = 12;
 
-interface CardApiResponse {
-	data: Card[];
-	meta?: { total_pages: number };
-}
-
 @Service()
 export class CardsService {
 	readonly #http = inject(HttpClient)
@@ -21,8 +16,18 @@ export class CardsService {
 	readonly totalPages = signal(1)
 	readonly loading = signal(true)
 
+	readonly selectedCard = signal<Card | null>(null)
+
 	constructor() {
 		this.#fetchCards()
+	}
+
+	selectCard(card: Card): void {
+		this.selectedCard.set(card)
+	}
+
+	closeModal(): void {
+		this.selectedCard.set(null)
 	}
 
 	setSearchTerm(term: string): void {

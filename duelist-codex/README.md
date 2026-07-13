@@ -42,3 +42,19 @@ After some analysis, the logic was re arranged and moved to the cards service co
 - [x] Create the search-bar component
 - [x] Add "searchValue" signal to be shared for search-bar to update value and grid to show result
 
+## HU-03 — Ver el detalle de una carta
+>Como duelista, quiero seleccionar una carta del catálogo y ver toda su información (efecto, ATK/DEF, tipo, atributo), para decidir si la carta me interesa para un futuro mazo. Criterios de aceptación:
+> * Al seleccionar una carta desde el catálogo, se muestra una vista de detalle con su información completa provista por la API.
+> * La vista de detalle indica claramente a qué carta corresponde (imagen y nombre visibles).
+> * La persona usuaria puede volver del detalle al catálogo sin perder el contexto de su búsqueda anterior (ej. el término buscado sigue ahí).
+
+For User Story 3, I will create a modal that shows the details, so that is not necessary to create a new view and is easy to go back and forth from all the cards results and their details.
+
+- [x] Create modal component with its basic layout
+- [x] Make the card-slot component clickable so it opens the modal and pass it the data of that card
+
+## HU-04 — Organizar el detalle en secciones
+> Como duelista, quiero que la información de esa vista de detalle (la de HU-03) esté organizada en secciones — por ejemplo su efecto, sus estadísticas y su precio de referencia — en lugar de un solo bloque de texto, para no sentirme abrumado por un bloque enorme de texto y datos mezclados. Criterios de aceptación:
+> * La información de la carta en el detalle está organizada en secciones o bloques claramente diferenciados (por ejemplo: Efecto, Estadísticas, Precio).
+> * La persona usuaria puede identificar y acceder a cada sección de forma independiente (pestañas, acordeón, o el mecanismo que el estudiante elija).
+> * El componente que organiza estas secciones está diseñado para ser reutilizable: no debería depender de que el contenido sea específicamente 'cartas de Yu-Gi-Oh'.

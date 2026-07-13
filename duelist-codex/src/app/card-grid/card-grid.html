@@ -5,7 +5,7 @@
     <p>No se encontraron cartas.</p>
   } @else {
     @for (card of cards(); track card.id) {
-      <card-slot [cardInfo]="card"></card-slot>
+      <card-slot [cardInfo]="card" (cardClick)="onCardClick($event)"></card-slot>
     }
   }
 </div>
