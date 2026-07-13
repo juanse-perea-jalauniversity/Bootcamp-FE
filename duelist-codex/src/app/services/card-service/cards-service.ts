@@ -18,10 +18,6 @@ export class CardsService {
 
 	readonly selectedCard = signal<Card | null>(null)
 
-	constructor() {
-		this.#fetchCards()
-	}
-
 	selectCard(card: Card): void {
 		this.selectedCard.set(card)
 	}
@@ -33,15 +29,15 @@ export class CardsService {
 	setSearchTerm(term: string): void {
 		this.searchValue.set(term)
 		this.currentPage.set(1)
-		this.#fetchCards()
+		this.fetchCards()
 	}
 
 	goToPage(page: number): void {
 		this.currentPage.set(page)
-		this.#fetchCards()
+		this.fetchCards()
 	}
 
-	#fetchCards(): void {
+	fetchCards(): void {
 		this.loading.set(true)
 
 		const term = this.searchValue().trim()

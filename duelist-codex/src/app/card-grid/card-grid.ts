@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CardsService } from '../services/card-service/cards-service';
 import { CardSlot } from "../card-slot/card-slot";
 import { Pagination } from "../pagination/pagination";
@@ -9,13 +9,17 @@ import { Pagination } from "../pagination/pagination";
   templateUrl: './card-grid.html',
   styleUrl: './card-grid.css',
 })
-export class CardGrid {
+export class CardGrid implements OnInit {
   readonly #cardService = inject(CardsService)
 
   readonly cards = this.#cardService.cards;
   readonly totalPages = this.#cardService.totalPages;
   readonly loading = this.#cardService.loading;
   readonly currentPage = this.#cardService.currentPage;
+
+  ngOnInit() {
+    this.#cardService.fetchCards()
+  }
 
   onPageChange(page: number): void {
     this.#cardService.goToPage(page);
