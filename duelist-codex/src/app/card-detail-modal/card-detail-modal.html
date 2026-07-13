@@ -28,7 +28,7 @@
             @if (card.atk != null || card.def != null || card.level != null) {
               <ul class="stats">
                 @if (card.level != null) {
-                  <li><span>Nivel</span><strong>{{ card.level }}</strong></li>
+                  <li><span>Level</span><strong>{{ card.level }}</strong></li>
                 }
                 @if (card.atk != null) {
                   <li><span>ATK</span><strong>{{ card.atk }}</strong></li>
@@ -38,7 +38,7 @@
                 }
               </ul>
             } @else {
-              <p class="muted">Esta carta no tiene estadísticas de combate.</p>
+              <p class="muted">This card has no combat stats.</p>
             }
           }
           @case ('Prices') {
@@ -49,7 +49,7 @@
                 <li><span>eBay</span><strong>$ {{ price.ebay_price }}</strong></li>
               </ul>
             } @else {
-              <p class="muted">Sin datos de precio.</p>
+              <p class="muted">No price data available.</p>
             }
           }
         }

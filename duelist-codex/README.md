@@ -65,3 +65,16 @@ The signal is set when a card-slot component is clicked (which assigns the cardI
 > * El componente que organiza estas secciones está diseñado para ser reutilizable: no debería depender de que el contenido sea específicamente 'cartas de Yu-Gi-Oh'.
 
 For this user story, the idea is just simply expand the card-detail-modal component so it is divided in sections. Tabs can be implemented as buttons that set which tab is active. For this, I used 2 signals and one output: one to track the active tab, one to have all the tabs value and the output to set the new activeTab value. Also for this I used ng-content, so that the tabs are rendered independent of the content, and this way it will be reusable.
+
+## HU-05 — Mantener el estado de búsqueda de forma consistente
+> Como duelista, quiero que la aplicación recuerde de forma consistente qué estoy buscando (HU-02), si hay una carga en curso (HU-01), y qué carta tengo seleccionada (HU-03), para tener una experiencia fluida sin resultados inconsistentes o pantallas que 'parpadean'. Criterios de aceptación:
+> * El estado de la búsqueda (término, resultados, carga, error) se maneja de forma centralizada y explícita, no con variables sueltas repetidas en varios componentes.
+> * El estudiante elige una única herramienta para este manejo de estado —BehaviorSubject o Signals— y la aplica de forma consistente en toda la funcionalidad de búsqueda.
+> * En la presentación, el estudiante explica por qué eligió esa herramienta para este caso puntual (qué ventaja le vio frente a la alternativa).
+
+This user story was working implicitly on previous tasks. All the necessary states/variables for searching/filtering/pagination are on the CardService. And about the second point, Signas was the choice for 2 particular reasons:
+
+1. According to what I researched, BehaviorSubject are used better for async operations, and the only part where we are doing async is on the CardService when fetching the API, and for this we use httpClient which returns an Observable.
+2. Signlas is the modern and simpler way to manage states on Angular, and it works really well for reactivity and optimizing which changes affect which componets, so the observability is very localized.
+
+Another decision was at the end to remove the footer from the layout, it was not necessary.

@@ -2,7 +2,7 @@
   @if (loading()) {
     <p>Loading...</p>
   } @else if (cards().length === 0) {
-    <p>No se encontraron cartas.</p>
+    <p>No cards found.</p>
   } @else {
     @for (card of cards(); track card.id) {
       <card-slot [cardInfo]="card" (cardClick)="onCardClick($event)"></card-slot>
