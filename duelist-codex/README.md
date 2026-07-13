@@ -77,4 +77,6 @@ This user story was working implicitly on previous tasks. All the necessary stat
 1. According to what I researched, BehaviorSubject are used better for async operations, and the only part where we are doing async is on the CardService when fetching the API, and for this we use httpClient which returns an Observable.
 2. Signlas is the modern and simpler way to manage states on Angular, and it works really well for reactivity and optimizing which changes affect which componets, so the observability is very localized.
 
-Another decision was at the end to remove the footer from the layout, it was not necessary.
+Some other final decisions: 
+* remove the footer from the layout, it was not necessary.
+* In the end, the initial load stays on the **ngOnInit** of the card grid component instead of the service's constructor. Makes more sense to call it when the component is actually initialized.
