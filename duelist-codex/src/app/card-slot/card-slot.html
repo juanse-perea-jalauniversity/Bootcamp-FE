@@ -1,4 +1,4 @@
-<div class="card-slot" (click)="cardClick.emit(cardInfo())" tabindex="0" role="button">
+<div class="card-slot" (click)="cardClick.emit(cardInfo())">
   <img [src]="cardInfo().card_images[0].image_url" alt="card-image">
   <div class="card-footer">
     <p [title]="cardInfo().name" class="card-name">{{cardInfo().name | slice:0:40}} {{cardInfo().name.length > 40 ? "..." : ""}}</p>

@@ -1,0 +1,26 @@
+.tab-bar {
+	display: flex;
+	gap: 0.25rem;
+	border-bottom: 1px solid var(--border);
+	margin-bottom: 1rem;
+}
+
+.tab {
+	border: 0;
+	background: transparent;
+	color: var(--text-muted);
+	padding: 0.6rem 1rem;
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+	border-bottom: 2px solid transparent;
+}
+
+.tab:hover {
+	color: var(--text);
+}
+
+.tab.active {
+	color: var(--accent);
+	border-bottom-color: var(--accent);
+}

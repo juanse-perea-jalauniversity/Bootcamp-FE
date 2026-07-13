@@ -1,0 +1,16 @@
+<div class="tab-bar">
+  @for (label of labels(); track label) {
+    <button
+      type="button"
+      class="tab"
+      [class.active]="label === active()"
+      (click)="activeChange.emit(label)"
+    >
+      {{ label }}
+    </button>
+  }
+</div>
+
+<div class="tab-panel">
+  <ng-content />
+</div>
