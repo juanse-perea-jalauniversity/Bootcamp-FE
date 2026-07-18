@@ -1,0 +1,15 @@
+.header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+	border-bottom: 1px solid var(--accent);
+}
+
+.title-second-color {
+	color: var(--accent);
+}
+
+main {
+	padding: 1rem;
+}

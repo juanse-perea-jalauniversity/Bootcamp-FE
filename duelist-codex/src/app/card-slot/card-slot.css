@@ -1,0 +1,28 @@
+.card-slot {
+	border: 1px solid var(--accent);
+	border-radius: 5%;
+	display: flex;
+	flex-direction: column;
+	max-width: 150px;
+	overflow: hidden;
+	background-color: var(--surface-2);
+}
+
+.card-slot img {
+	width: 100%;
+}
+
+.card-footer {
+	padding: 0px 5px;
+}
+
+.card-name {
+	font-weight: bold;
+	font-size: 0.8rem;
+	margin: 0;
+}
+
+.card-type {
+	font-size: 0.6rem;
+	margin: 0;
+}
