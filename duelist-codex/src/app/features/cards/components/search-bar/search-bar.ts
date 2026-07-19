@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CardsService } from '../services/card-service/cards-service';
+import { CardsService } from '../../data/cards-service';
 
 @Component({
   selector: 'search-bar',

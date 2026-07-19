@@ -1,4 +1,4 @@
-interface CardPrice {
+export interface CardPrice {
 	cardmarket_price: string;
 	tcgplayer_price: string;
 	ebay_price: string;
@@ -6,7 +6,7 @@ interface CardPrice {
 	coolstuffinc_price: string;
 }
 
-interface Card {
+export interface Card {
 	id: number;
 	name: string;
 	type: string;
@@ -24,7 +24,7 @@ interface Card {
 	card_prices?: CardPrice[];
 }
 
-interface CardApiResponse {
+export interface CardApiResponse {
 	data: Card[];
 	meta?: { total_pages: number };
 }

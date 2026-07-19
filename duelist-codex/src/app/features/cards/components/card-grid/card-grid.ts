@@ -1,7 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CardsService } from '../services/card-service/cards-service';
+import { CardsService } from '../../data/cards-service';
+import { Card } from '../../data/card.model';
 import { CardSlot } from "../card-slot/card-slot";
-import { Pagination } from "../pagination/pagination";
+import { Pagination } from "../../../../shared/components/pagination/pagination";
 
 @Component({
   selector: 'card-grid',

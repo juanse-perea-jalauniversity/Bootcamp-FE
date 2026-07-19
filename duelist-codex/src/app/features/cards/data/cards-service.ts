@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service, signal } from '@angular/core';
 import { catchError, of } from 'rxjs';
+import { Card, CardApiResponse } from './card.model';
 
 const PAGE_SIZE = 12;
 

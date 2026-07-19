@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
-import { Layout } from './layout/layout';
 
 export const routes: Routes = [
-	{ path: '', component: Layout, title: "Home" }
+	{
+		path: '',
+		loadChildren: () =>
+			import('./features/cards/cards.routes').then(m => m.CARDS_ROUTES),
+	},
 ];

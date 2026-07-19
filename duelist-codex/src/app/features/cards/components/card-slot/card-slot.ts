@@ -1,5 +1,6 @@
 import { SlicePipe } from '@angular/common';
 import { Component, input, output } from '@angular/core';
+import { Card } from '../../data/card.model';
 
 @Component({
   selector: 'card-slot',

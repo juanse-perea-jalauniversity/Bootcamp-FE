@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-import { CardsService } from '../services/card-service/cards-service';
-import { Tabs } from '../tabs/tabs';
+import { Tabs } from '../../../../shared/components/tabs/tabs';
+import { CardsService } from '../../data/cards-service';
 
 @Component({
   selector: 'card-detail-modal',
