@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { CardGrid } from './card-grid';
 
@@ -9,6 +10,7 @@ describe('CardGrid', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CardGrid],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CardGrid);

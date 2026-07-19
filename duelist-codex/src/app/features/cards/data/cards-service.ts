@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service, signal } from '@angular/core';
-import { catchError, of } from 'rxjs';
+import { catchError, map, of, type Observable } from 'rxjs';
 import { Card, CardApiResponse } from './card.model';
 
 const PAGE_SIZE = 12;
@@ -60,5 +60,14 @@ export class CardsService {
 				this.totalPages.set(res.meta?.total_pages ?? 1)
 				this.loading.set(false)
 			})
+	}
+
+	getCardById(id: string): Observable<Card | null> {
+		return this.#http
+			.get<CardApiResponse>(this.#ygoprodeckurl, { params: { id } })
+			.pipe(
+				map(res => res.data?.[0] ?? null),
+				catchError(() => of<Card | null>(null)),
+			)
 	}
 }

@@ -1,0 +1,14 @@
+<div class="detail-page">
+  <a class="back" routerLink="/">← Back to catalog</a>
+
+  @if (loading()) {
+    <p>Loading…</p>
+  } @else if (card(); as card) {
+    <card-detail-view [card]="card" />
+  } @else {
+    <div class="not-found">
+      <p>Card not found.</p>
+      <a routerLink="/">Return to catalog</a>
+    </div>
+  }
+</div>

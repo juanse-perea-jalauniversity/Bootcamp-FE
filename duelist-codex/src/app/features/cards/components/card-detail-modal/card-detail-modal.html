@@ -2,58 +2,7 @@
   <div class="overlay" (click)="onClose()">
     <div class="modal" (click)="$event.stopPropagation()">
       <button type="button" class="close" (click)="onClose()">✕</button>
-
-      <div class="modal-head">
-        <img class="modal-img" [src]="card.card_images[0].image_url" [alt]="card.name">
-        <div>
-          <h2 class="modal-name">{{ card.name }}</h2>
-          <p class="modal-sub">
-            {{ card.type }}
-            @if (card.race) { · {{ card.race }} }
-            @if (card.attribute) { · {{ card.attribute }} }
-          </p>
-        </div>
-      </div>
-
-      <tabs
-        class="modal-body"
-        [labels]="['Effect', 'Statistics', 'Prices']"
-        [(active)]="activeTab"
-      >
-        @switch (activeTab()) {
-          @case ('Effect') {
-            <p class="effect">{{ card.desc }}</p>
-          }
-          @case ('Statistics') {
-            @if (card.atk != null || card.def != null || card.level != null) {
-              <ul class="stats">
-                @if (card.level != null) {
-                  <li><span>Level</span><strong>{{ card.level }}</strong></li>
-                }
-                @if (card.atk != null) {
-                  <li><span>ATK</span><strong>{{ card.atk }}</strong></li>
-                }
-                @if (card.def != null) {
-                  <li><span>DEF</span><strong>{{ card.def }}</strong></li>
-                }
-              </ul>
-            } @else {
-              <p class="muted">This card has no combat stats.</p>
-            }
-          }
-          @case ('Prices') {
-            @if (card.card_prices?.[0]; as price) {
-              <ul class="stats">
-                <li><span>Cardmarket</span><strong>{{ price.cardmarket_price }} €</strong></li>
-                <li><span>TCGplayer</span><strong>$ {{ price.tcgplayer_price }}</strong></li>
-                <li><span>eBay</span><strong>$ {{ price.ebay_price }}</strong></li>
-              </ul>
-            } @else {
-              <p class="muted">No price data available.</p>
-            }
-          }
-        }
-      </tabs>
+      <card-detail-view [card]="card" />
     </div>
   </div>
 }
