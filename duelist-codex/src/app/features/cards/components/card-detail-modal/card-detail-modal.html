@@ -1,8 +1,0 @@
-@if (card(); as card) {
-  <div class="overlay" (click)="onClose()">
-    <div class="modal" (click)="$event.stopPropagation()">
-      <button type="button" class="close" (click)="onClose()">✕</button>
-      <card-detail-view [card]="card" />
-    </div>
-  </div>
-}

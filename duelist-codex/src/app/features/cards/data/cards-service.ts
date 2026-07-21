@@ -17,16 +17,6 @@ export class CardsService {
 	readonly totalPages = signal(1)
 	readonly loading = signal(true)
 
-	readonly selectedCard = signal<Card | null>(null)
-
-	selectCard(card: Card): void {
-		this.selectedCard.set(card)
-	}
-
-	closeModal(): void {
-		this.selectedCard.set(null)
-	}
-
 	setSearchTerm(term: string): void {
 		this.searchValue.set(term)
 		this.currentPage.set(1)

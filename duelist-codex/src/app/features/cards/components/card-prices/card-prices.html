@@ -1,0 +1,9 @@
+@if (card().card_prices?.[0]; as price) {
+  <ul class="stats">
+    <li><span>Cardmarket</span><strong>{{ price.cardmarket_price }} €</strong></li>
+    <li><span>TCGplayer</span><strong>$ {{ price.tcgplayer_price }}</strong></li>
+    <li><span>eBay</span><strong>$ {{ price.ebay_price }}</strong></li>
+  </ul>
+} @else {
+  <p class="muted">No price data available.</p>
+}

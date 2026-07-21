@@ -1,10 +1,16 @@
 <div class="detail-page">
   <a class="back" routerLink="/">← Back to catalog</a>
 
-  @if (loading()) {
-    <p>Loading…</p>
-  } @else if (card(); as card) {
-    <card-detail-view [card]="card" />
+  @if (card(); as card) {
+    <card-detail-header [card]="card" />
+
+    <nav class="tab-bar">
+      <a routerLink="effect"     routerLinkActive="active">Effect</a>
+      <a routerLink="statistics" routerLinkActive="active">Statistics</a>
+      <a routerLink="prices"     routerLinkActive="active">Prices</a>
+    </nav>
+
+    <router-outlet />
   } @else {
     <div class="not-found">
       <p>Card not found.</p>

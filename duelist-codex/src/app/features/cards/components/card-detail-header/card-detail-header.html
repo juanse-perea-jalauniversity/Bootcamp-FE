@@ -1,0 +1,13 @@
+@let c = card();
+
+<div class="detail-head">
+  <img class="detail-img" [src]="c.card_images[0].image_url" [alt]="c.name">
+  <div>
+    <h2 class="detail-name">{{ c.name }}</h2>
+    <p class="detail-sub">
+      {{ c.type }}
+      @if (c.race) { · {{ c.race }} }
+      @if (c.attribute) { · {{ c.attribute }} }
+    </p>
+  </div>
+</div>
