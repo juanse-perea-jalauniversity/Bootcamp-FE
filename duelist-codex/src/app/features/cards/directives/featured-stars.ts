@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Renderer2, effect, inject, input } from '@angular/core';
+import { Directive, ElementRef, OnInit, Renderer2, effect, inject, input } from '@angular/core';
 import { Card } from '../data/card.model';
 import { FeaturedAspects, featuredAspects } from '../data/featured';
 
@@ -13,14 +13,14 @@ const STAR_ORDER: (keyof FeaturedAspects)[] = ['level', 'atk', 'def'];
 @Directive({
   selector: '[featuredStars]',
 })
-export class FeaturedStars {
+export class FeaturedStars implements OnInit {
   readonly card = input.required<Card>({ alias: 'featuredStars' });
 
   readonly #el = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly #renderer = inject(Renderer2);
 
-  constructor() {
-    effect(() => this.#render(featuredAspects(this.card())));
+  ngOnInit() {
+    this.#render(featuredAspects(this.card()));
   }
 
   #render(aspects: FeaturedAspects): void {
