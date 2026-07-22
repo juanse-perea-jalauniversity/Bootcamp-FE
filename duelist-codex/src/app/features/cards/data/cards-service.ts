@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service, signal } from '@angular/core';
-import { catchError, debounceTime, distinctUntilChanged, map, of, type Observable } from 'rxjs';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { catchError, debounceTime, distinctUntilChanged, map, of, skip, type Observable } from 'rxjs';
 import { Card, CardApiResponse } from './card.model';
 
 const PAGE_SIZE = 12;
@@ -17,10 +18,22 @@ export class CardsService {
 	readonly totalPages = signal(1)
 	readonly loading = signal(true)
 
+	constructor() {
+		toObservable(this.searchValue)
+			.pipe(
+				skip(1),
+				debounceTime(1000),
+				distinctUntilChanged(),
+				takeUntilDestroyed(),
+			)
+			.subscribe(() => {
+				this.currentPage.set(1)
+				this.fetchCards()
+			})
+	}
+
 	setSearchTerm(term: string): void {
 		this.searchValue.set(term)
-		this.currentPage.set(1)
-		this.fetchCards()
 	}
 
 	goToPage(page: number): void {
