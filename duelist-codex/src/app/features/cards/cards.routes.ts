@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { cardResolver } from './data/card.resolver';
+import { usernameGuard } from './guards/username.guard';
 
 export const CARDS_ROUTES: Routes = [
 	{
@@ -7,6 +8,19 @@ export const CARDS_ROUTES: Routes = [
 		loadComponent: () =>
 			import('./pages/card-list/card-list').then(m => m.CardList),
 		title: 'Home',
+	},
+	{
+		path: 'setup',
+		loadComponent: () =>
+			import('./pages/setup/setup').then(m => m.Setup),
+		title: 'Setup',
+	},
+	{
+		path: 'collection',
+		canActivate: [usernameGuard],
+		loadComponent: () =>
+			import('./pages/collection/collection').then(m => m.Collection),
+		title: 'My Collection',
 	},
 	{
 		path: 'card/:id',

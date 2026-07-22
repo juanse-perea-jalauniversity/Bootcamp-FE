@@ -1,0 +1,15 @@
+<div class="setup">
+  <h1>Welcome, <span class="accent">Duelist</span></h1>
+  <p>Pick a username to unlock your personal collection.</p>
+
+  <form class="setup-form" (submit)="submit($event)">
+    <input
+      type="text"
+      placeholder="Your username"
+      [value]="name()"
+      (input)="onInput($event)"
+      autofocus
+    >
+    <button type="submit" [disabled]="!name().trim()">Continue</button>
+  </form>
+</div>

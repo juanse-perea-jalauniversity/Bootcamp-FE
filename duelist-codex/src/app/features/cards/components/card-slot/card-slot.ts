@@ -14,6 +14,7 @@ export class CardSlot {
   readonly favoriteToggle = output<Card>();
 
   onFavorite(event: Event): void {
+    event.preventDefault();
     event.stopPropagation();
     this.favoriteToggle.emit(this.cardInfo());
   }

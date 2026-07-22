@@ -10,6 +10,16 @@
 	color: var(--accent);
 }
 
+.collection-link {
+	color: var(--text-muted);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.collection-link:hover {
+	color: var(--accent);
+}
+
 main {
 	padding: 1rem;
 }

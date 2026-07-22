@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service, signal } from '@angular/core';
-import { catchError, map, of, type Observable } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, of, type Observable } from 'rxjs';
 import { Card, CardApiResponse } from './card.model';
 
 const PAGE_SIZE = 12;
@@ -58,6 +58,19 @@ export class CardsService {
 			.pipe(
 				map(res => res.data?.[0] ?? null),
 				catchError(() => of<Card | null>(null)),
+			)
+	}
+
+	getCardsByIds(ids: number[]): Observable<Card[]> {
+		if (ids.length === 0) {
+			return of<Card[]>([])
+		}
+
+		return this.#http
+			.get<CardApiResponse>(this.#ygoprodeckurl, { params: { id: ids.join(',') } })
+			.pipe(
+				map(res => res.data ?? []),
+				catchError(() => of<Card[]>([])),
 			)
 	}
 }

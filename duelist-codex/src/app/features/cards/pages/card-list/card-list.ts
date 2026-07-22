@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CardGrid } from "../../components/card-grid/card-grid";
 import { SearchBar } from '../../components/search-bar/search-bar';
 
 @Component({
   selector: 'card-list',
-  imports: [CardGrid, SearchBar],
+  imports: [CardGrid, SearchBar, RouterLink],
   templateUrl: './card-list.html',
   styleUrl: './card-list.css',
 })

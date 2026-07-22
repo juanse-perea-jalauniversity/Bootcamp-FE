@@ -1,0 +1,27 @@
+<div class="collection">
+  <header class="collection-head">
+    <a class="back" routerLink="/">← Catalog</a>
+    <h1>{{ username() }}'s Collection</h1>
+  </header>
+
+  @if (loading()) {
+    <p>Loading…</p>
+  } @else if (cards().length === 0) {
+    <div class="empty">
+      <p>No favorite cards yet.</p>
+      <a routerLink="/">Browse the catalog</a>
+    </div>
+  } @else {
+    <div class="card-grid">
+      @for (card of cards(); track card.id) {
+        <a class="card-link" [routerLink]="['/card', card.id]">
+          <card-slot
+            [cardInfo]="card"
+            [isFavorite]="isFavorite(card.id)"
+            (favoriteToggle)="toggle($event)"
+          ></card-slot>
+        </a>
+      }
+    </div>
+  }
+</div>
