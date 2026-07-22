@@ -6,7 +6,11 @@
   } @else {
     @for (card of cards(); track card.id) {
       <a class="card-link" [routerLink]="['/card', card.id]">
-        <card-slot [cardInfo]="card"></card-slot>
+        <card-slot
+          [cardInfo]="card"
+          [isFavorite]="collection.isFavorite(card.id)"
+          (favoriteToggle)="collection.toggle($event)"
+        ></card-slot>
       </a>
     }
   }

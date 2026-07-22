@@ -1,4 +1,11 @@
-<div class="card-slot" (click)="cardClick.emit(cardInfo())">
+<div class="card-slot">
+  <button
+    type="button"
+    class="favorite-btn"
+    [class.active]="isFavorite()"
+    [title]="isFavorite() ? 'Remove from collection' : 'Add to collection'"
+    (click)="onFavorite($event)"
+  >★</button>
   <img [src]="cardInfo().card_images[0].image_url" alt="card-image">
   <div class="card-footer">
     <p [title]="cardInfo().name" class="card-name">{{cardInfo().name | slice:0:40}} {{cardInfo().name.length > 40 ? "..." : ""}}</p>

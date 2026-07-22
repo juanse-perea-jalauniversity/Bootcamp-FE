@@ -10,5 +10,11 @@ import { Card } from '../../data/card.model';
 })
 export class CardSlot {
   readonly cardInfo = input.required<Card>();
-  readonly cardClick = output<Card>();
+  readonly isFavorite = input<boolean>(false);
+  readonly favoriteToggle = output<Card>();
+
+  onFavorite(event: Event): void {
+    event.stopPropagation();
+    this.favoriteToggle.emit(this.cardInfo());
+  }
 }
