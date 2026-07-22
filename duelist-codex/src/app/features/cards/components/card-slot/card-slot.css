@@ -9,6 +9,13 @@
 	background-color: var(--surface-2);
 }
 
+:host(.is-featured) .card-slot {
+	border-color: gold;
+	outline: 3px solid gold;
+	outline-offset: -3px;
+	box-shadow: 0 0 14px 3px rgba(255, 215, 0, 0.85);
+}
+
 .favorite-btn {
 	position: absolute;
 	top: 6px;

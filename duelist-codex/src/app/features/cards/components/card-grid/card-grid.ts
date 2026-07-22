@@ -4,10 +4,11 @@ import { CardsService } from '../../data/cards-service';
 import { CollectionService } from '../../data/collection-service';
 import { CardSlot } from "../card-slot/card-slot";
 import { Pagination } from "../../../../shared/components/pagination/pagination";
+import { FeaturedCard } from "../../directives/featured-card";
 
 @Component({
   selector: 'card-grid',
-  imports: [CardSlot, Pagination, RouterLink],
+  imports: [CardSlot, Pagination, RouterLink, FeaturedCard],
   templateUrl: './card-grid.html',
   styleUrl: './card-grid.css',
 })

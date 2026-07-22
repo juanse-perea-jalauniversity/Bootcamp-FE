@@ -1,10 +1,11 @@
 import { SlicePipe } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { Card } from '../../data/card.model';
+import { FeaturedStars } from '../../directives/featured-stars';
 
 @Component({
   selector: 'card-slot',
-  imports: [SlicePipe],
+  imports: [SlicePipe, FeaturedStars],
   templateUrl: './card-slot.html',
   styleUrl: './card-slot.css',
 })

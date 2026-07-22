@@ -7,6 +7,7 @@
     @for (card of cards(); track card.id) {
       <a class="card-link" [routerLink]="['/card', card.id]">
         <card-slot
+          [featuredCard]="card"
           [cardInfo]="card"
           [isFavorite]="collection.isFavorite(card.id)"
           (favoriteToggle)="collection.toggle($event)"

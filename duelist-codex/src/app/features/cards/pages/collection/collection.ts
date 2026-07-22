@@ -4,11 +4,12 @@ import { CardsService } from '../../data/cards-service';
 import { CollectionService } from '../../data/collection-service';
 import { ProfileService } from '../../data/profile-service';
 import { CardSlot } from '../../components/card-slot/card-slot';
+import { FeaturedCard } from '../../directives/featured-card';
 import { Card } from '../../data/card.model';
 
 @Component({
   selector: 'collection',
-  imports: [CardSlot, RouterLink],
+  imports: [CardSlot, RouterLink, FeaturedCard],
   templateUrl: './collection.html',
   styleUrl: './collection.css',
 })
