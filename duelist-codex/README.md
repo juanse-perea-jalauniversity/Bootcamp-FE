@@ -1,6 +1,8 @@
 # DuelistCodex
 
-## HU-01 — Ver catálogo de cartas
+## CHALLENGE 1
+
+### HU-01 — Ver catálogo de cartas
 
 > Como duelista que abre la aplicación, quiero ver una grilla con las cartas disponibles, incluyendo su imagen, nombre y tipo, para poder explorar el catálogo general antes de buscar algo específico. **Criterios de aceptación**:
 > * Al cargar la vista principal se muestra un conjunto de cartas obtenidas desde la API de YGOPRODeck.
@@ -27,7 +29,7 @@ Tasks:
 - [x] Render loading message/icon
 - [x] Add pagination using the API query params
 
-## HU-02 — Buscar cartas por nombre
+### HU-02 — Buscar cartas por nombre
 > Como duelista, quiero escribir el nombre (total o parcial) de una carta y obtener los resultados que coincidan, para encontrar rápidamente la carta que quiero revisar sin recorrer todo el catálogo.
 **Criterios de aceptación**:
 > * Existe un campo de búsqueda visible y accesible desde la pantalla principal.
@@ -42,7 +44,7 @@ After some analysis, the logic was re arranged and moved to the cards service co
 - [x] Create the search-bar component
 - [x] Add "searchValue" signal to be shared for search-bar to update value and grid to show result
 
-## HU-03 — Ver el detalle de una carta
+### HU-03 — Ver el detalle de una carta
 >Como duelista, quiero seleccionar una carta del catálogo y ver toda su información (efecto, ATK/DEF, tipo, atributo), para decidir si la carta me interesa para un futuro mazo. Criterios de aceptación:
 > * Al seleccionar una carta desde el catálogo, se muestra una vista de detalle con su información completa provista por la API.
 > * La vista de detalle indica claramente a qué carta corresponde (imagen y nombre visibles).
@@ -58,7 +60,7 @@ The signal is set when a card-slot component is clicked (which assigns the cardI
 - [x] Create modal component with its basic layout
 - [x] Make the card-slot component clickable so it opens the modal and pass it the data of that card
 
-## HU-04 — Organizar el detalle en secciones
+### HU-04 — Organizar el detalle en secciones
 > Como duelista, quiero que la información de esa vista de detalle (la de HU-03) esté organizada en secciones — por ejemplo su efecto, sus estadísticas y su precio de referencia — en lugar de un solo bloque de texto, para no sentirme abrumado por un bloque enorme de texto y datos mezclados. Criterios de aceptación:
 > * La información de la carta en el detalle está organizada en secciones o bloques claramente diferenciados (por ejemplo: Efecto, Estadísticas, Precio).
 > * La persona usuaria puede identificar y acceder a cada sección de forma independiente (pestañas, acordeón, o el mecanismo que el estudiante elija).
@@ -66,7 +68,7 @@ The signal is set when a card-slot component is clicked (which assigns the cardI
 
 For this user story, the idea is just simply expand the card-detail-modal component so it is divided in sections. Tabs can be implemented as buttons that set which tab is active. For this, I used 2 signals and one output: one to track the active tab, one to have all the tabs value and the output to set the new activeTab value. Also for this I used ng-content, so that the tabs are rendered independent of the content, and this way it will be reusable.
 
-## HU-05 — Mantener el estado de búsqueda de forma consistente
+### HU-05 — Mantener el estado de búsqueda de forma consistente
 > Como duelista, quiero que la aplicación recuerde de forma consistente qué estoy buscando (HU-02), si hay una carga en curso (HU-01), y qué carta tengo seleccionada (HU-03), para tener una experiencia fluida sin resultados inconsistentes o pantallas que 'parpadean'. Criterios de aceptación:
 > * El estado de la búsqueda (término, resultados, carga, error) se maneja de forma centralizada y explícita, no con variables sueltas repetidas en varios componentes.
 > * El estudiante elige una única herramienta para este manejo de estado —BehaviorSubject o Signals— y la aplica de forma consistente en toda la funcionalidad de búsqueda.
@@ -80,3 +82,34 @@ This user story was working implicitly on previous tasks. All the necessary stat
 Some other final decisions: 
 * remove the footer from the layout, it was not necessary.
 * In the end, the initial load stays on the **ngOnInit** of the card grid component instead of the service's constructor. Makes more sense to call it when the component is actually initialized.
+
+## CHALLENGE 2
+
+### Routes map - diagram
+
+The root route (`app.routes.ts`) does nothing but lazy load the cards feature (`CARDS_ROUTES`), so the whole app hangs from one feature module. Every page is lazy loaded with `loadComponent`, the card detail is a parent route with 3 lazy children (one per tab), and `/collection` is protected by `usernameGuard`.
+
+![Routes map of DuelistCodex](./routes-map-diagram.png)
+
+Every request goes to the same YGOPRODeck endpoint, `GET https://db.ygoprodeck.com/api/v7/cardinfo.php`, and all of them live in `CardsService`. What changes between calls are the query params:
+
+| Method | Query params sent | Used by | What it is for |
+| --- | --- | --- | --- |
+| `fetchCards()` | `num=12`, `offset=(page-1)*12` | `/` (catalog grid + pagination) | Paginated catalog. `num` + `offset` is what makes the API return the `meta.total_pages` used by the pagination component |
+| `fetchCards()` (searching) | `num=12`, `offset=…`, `fname=<term>` | `/` (search bar) | `fname` is the *fuzzy* name search, so partial names match. It is only added when the term is not empty, and the page resets to 1 |
+| `getCardById(id)` | `id=<id>` | `cardResolver` → `/card/:id` | Single card for the detail route. Response is `data[0]`, or `null` if it fails |
+| `getCardsByIds(ids)` | `id=<id,id,id>` | `/collection` | The same `id` param accepts a comma separated list, so the whole favorites collection is fetched in one request instead of N |
+
+Notes about the API:
+
+* `cardinfo.php` returns `400` when nothing matches (for example an `fname` with no results), so both `fetchCards()` and the getters have a `catchError` that falls back to an empty list / `null` instead of letting the error reach the UI.
+* `meta.total_pages` only comes back when the request is paginated with `num`/`offset`, which is why `totalPages` defaults to `1`.
+* `getCardsByIds([])` short circuits with `of([])` and never calls the API, because sending an empty `id` would be a bad request.
+
+Some decisions worth noting:
+
+* The card detail stopped being a modal (HU-03) and became a real route, so a card is now shareable/bookmarkable by URL and the tabs of HU-04 became child routes instead of signals.
+* `cardResolver` fetches the card **before** activating the route, so `CardDetail` never renders a half empty view while the request is in flight.
+* `usernameGuard` returns a `UrlTree` instead of calling `router.navigate`, which is the recommended way: the redirect is part of the same navigation and the guard stays free of side effects. It carries `returnUrl` so after the setup form the user lands back where they wanted to go.
+* `withRouterConfig({ paramsInheritanceStrategy: 'always' })` is enabled so the child tab routes can read the `:id` param and the resolved `card` from the parent.
+
