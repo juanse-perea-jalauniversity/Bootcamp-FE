@@ -1,0 +1,17 @@
+@let c = card();
+
+@if (c.atk != null || c.def != null || c.level != null) {
+  <ul class="stats">
+    @if (c.level != null) {
+      <li><span>Level</span><strong>{{ c.level }}</strong></li>
+    }
+    @if (c.atk != null) {
+      <li><span>ATK</span><strong>{{ c.atk }}</strong></li>
+    }
+    @if (c.def != null) {
+      <li><span>DEF</span><strong>{{ c.def }}</strong></li>
+    }
+  </ul>
+} @else {
+  <p class="muted">This card has no combat stats.</p>
+}

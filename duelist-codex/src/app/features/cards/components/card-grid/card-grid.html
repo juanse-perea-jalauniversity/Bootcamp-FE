@@ -1,0 +1,26 @@
+<div class="card-grid">
+  @if (loading()) {
+    <p>Loading...</p>
+  } @else if (cards().length === 0) {
+    <p>No cards found.</p>
+  } @else {
+    @for (card of cards(); track card.id) {
+      <a class="card-link" [routerLink]="['/card', card.id]">
+        <card-slot
+          [featuredCard]="card"
+          [cardInfo]="card"
+          [isFavorite]="collection.isFavorite(card.id)"
+          (favoriteToggle)="collection.toggle($event)"
+        ></card-slot>
+      </a>
+    }
+  }
+</div>
+
+@if (totalPages() > 1) {
+  <pagination
+    [currentPage]="currentPage()"
+    [totalPages]="totalPages()"
+    (pageChange)="onPageChange($event)"
+  />
+}

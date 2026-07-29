@@ -1,0 +1,89 @@
+import { HttpClient } from '@angular/common/http';
+import { inject, Service, signal } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { catchError, debounceTime, distinctUntilChanged, map, of, skip, type Observable } from 'rxjs';
+import { Card, CardApiResponse } from './card.model';
+
+const PAGE_SIZE = 12;
+
+@Service()
+export class CardsService {
+	readonly #http = inject(HttpClient)
+	readonly #ygoprodeckurl = 'https://db.ygoprodeck.com/api/v7/cardinfo.php'
+
+	readonly searchValue = signal("")
+	readonly currentPage = signal(1)
+
+	readonly cards = signal<Card[]>([])
+	readonly totalPages = signal(1)
+	readonly loading = signal(true)
+
+	constructor() {
+		toObservable(this.searchValue)
+			.pipe(
+				skip(1),
+				debounceTime(1000),
+				distinctUntilChanged(),
+				takeUntilDestroyed(),
+			)
+			.subscribe(() => {
+				this.currentPage.set(1)
+				this.fetchCards()
+			})
+	}
+
+	setSearchTerm(term: string): void {
+		this.searchValue.set(term)
+	}
+
+	goToPage(page: number): void {
+		this.currentPage.set(page)
+		this.fetchCards()
+	}
+
+	fetchCards(): void {
+		this.loading.set(true)
+
+		const term = this.searchValue().trim()
+		const params: Record<string, string | number> = {
+			num: PAGE_SIZE,
+			offset: (this.currentPage() - 1) * PAGE_SIZE,
+		}
+		if (term) {
+			params['fname'] = term
+		}
+
+		this.#http
+			.get<CardApiResponse>(this.#ygoprodeckurl, { params })
+			.pipe(
+				catchError(() => of<CardApiResponse>({ data: [] })),
+			)
+			.subscribe(res => {
+				this.cards.set(res.data ?? [])
+				this.totalPages.set(res.meta?.total_pages ?? 1)
+				this.loading.set(false)
+			})
+	}
+
+	getCardById(id: string): Observable<Card | null> {
+		return this.#http
+			.get<CardApiResponse>(this.#ygoprodeckurl, { params: { id } })
+			.pipe(
+				map(res => res.data?.[0] ?? null),
+				catchError(() => of<Card | null>(null)),
+			)
+	}
+
+	getCardsByIds(ids: number[]): Observable<Card[]> {
+		if (ids.length === 0) {
+			return of<Card[]>([])
+		}
+
+		return this.#http
+			.get<CardApiResponse>(this.#ygoprodeckurl, { params: { id: ids.join(',') } })
+			.pipe(
+				map(res => res.data ?? []),
+				catchError(() => of<Card[]>([])),
+			)
+	}
+}

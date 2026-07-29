@@ -1,0 +1,45 @@
+.setup {
+	max-width: 420px;
+	margin: 4rem auto;
+	padding: 2rem;
+	text-align: center;
+}
+
+.accent {
+	color: var(--accent);
+}
+
+.setup p {
+	color: var(--text-muted);
+	margin-bottom: 1.5rem;
+}
+
+.setup-form {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.setup-form input {
+	flex: 1;
+	padding: 0.6rem 0.75rem;
+	border: 1px solid var(--border);
+	border-radius: 0.5rem;
+	background: var(--surface-2);
+	color: var(--text);
+	font: inherit;
+}
+
+.setup-form button {
+	padding: 0.6rem 1.2rem;
+	border: 0;
+	border-radius: 0.5rem;
+	background: var(--accent);
+	color: #fff;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.setup-form button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}

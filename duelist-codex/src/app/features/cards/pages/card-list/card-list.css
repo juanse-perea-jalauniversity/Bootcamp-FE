@@ -1,0 +1,25 @@
+.header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+	border-bottom: 1px solid var(--accent);
+}
+
+.title-second-color {
+	color: var(--accent);
+}
+
+.collection-link {
+	color: var(--text-muted);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.collection-link:hover {
+	color: var(--accent);
+}
+
+main {
+	padding: 1rem;
+}

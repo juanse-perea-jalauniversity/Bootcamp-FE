@@ -1,0 +1,20 @@
+<div class="detail-page">
+  <a class="back" routerLink="/">← Back to catalog</a>
+
+  @if (card(); as card) {
+    <card-detail-header [card]="card" />
+
+    <nav class="tab-bar">
+      <a routerLink="effect"     routerLinkActive="active">Effect</a>
+      <a routerLink="statistics" routerLinkActive="active">Statistics</a>
+      <a routerLink="prices"     routerLinkActive="active">Prices</a>
+    </nav>
+
+    <router-outlet />
+  } @else {
+    <div class="not-found">
+      <p>Card not found.</p>
+      <a routerLink="/">Return to catalog</a>
+    </div>
+  }
+</div>
