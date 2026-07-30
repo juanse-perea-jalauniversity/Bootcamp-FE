@@ -113,3 +113,7 @@ Some decisions worth noting:
 * `usernameGuard` returns a `UrlTree` instead of calling `router.navigate`, which is the recommended way: the redirect is part of the same navigation and the guard stays free of side effects. It carries `returnUrl` so after the setup form the user lands back where they wanted to go.
 * `withRouterConfig({ paramsInheritanceStrategy: 'always' })` is enabled so the child tab routes can read the `:id` param and the resolved `card` from the parent.
 
+## CHALLENGE 3
+
+
+
