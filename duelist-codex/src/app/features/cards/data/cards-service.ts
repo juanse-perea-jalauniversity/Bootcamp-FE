@@ -56,8 +56,7 @@ export class CardsService {
 		this.#http
 			.get<CardApiResponse>(this.#ygoprodeckurl, { params })
 			.pipe(
-				catchError(() => of<CardApiResponse>({ data: [] })),
-			)
+		)
 			.subscribe(res => {
 				this.cards.set(res.data ?? [])
 				this.totalPages.set(res.meta?.total_pages ?? 1)
