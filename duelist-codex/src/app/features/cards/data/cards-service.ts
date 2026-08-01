@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Service, signal } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { catchError, debounceTime, distinctUntilChanged, map, of, skip, type Observable } from 'rxjs';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { computed, inject, linkedSignal, Service, signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { catchError, debounceTime, distinctUntilChanged, map, of, type Observable } from 'rxjs';
 import { Card, CardApiResponse } from './card.model';
 
 const PAGE_SIZE = 12;
+const SEARCH_DEBOUNCE_MS = 400;
 
 @Service()
 export class CardsService {
@@ -12,25 +13,34 @@ export class CardsService {
 	readonly #ygoprodeckurl = 'https://db.ygoprodeck.com/api/v7/cardinfo.php'
 
 	readonly searchValue = signal("")
-	readonly currentPage = signal(1)
 
-	readonly cards = signal<Card[]>([])
-	readonly totalPages = signal(1)
-	readonly loading = signal(true)
+	readonly #debouncedSearch = toSignal(
+		toObservable(this.searchValue).pipe(
+			debounceTime(SEARCH_DEBOUNCE_MS),
+			map(term => term.trim()),
+			distinctUntilChanged(),
+		),
+		{ initialValue: "" },
+	)
 
-	constructor() {
-		toObservable(this.searchValue)
-			.pipe(
-				skip(1),
-				debounceTime(1000),
-				distinctUntilChanged(),
-				takeUntilDestroyed(),
-			)
-			.subscribe(() => {
-				this.currentPage.set(1)
-				this.fetchCards()
-			})
-	}
+	readonly currentPage = linkedSignal<string, number>({
+		source: this.#debouncedSearch,
+		computation: () => 1,
+	})
+
+	readonly #cardsResource = httpResource<CardApiResponse>(() => ({
+		url: this.#ygoprodeckurl,
+		params: {
+			num: PAGE_SIZE,
+			offset: (this.currentPage() - 1) * PAGE_SIZE,
+			...(this.#debouncedSearch() && { fname: this.#debouncedSearch() }),
+		},
+	}))
+
+	readonly cards = computed(() => this.#cardsResource.value()?.data ?? [])
+	readonly totalPages = computed(() => this.#cardsResource.value()?.meta?.total_pages ?? 1)
+	readonly loading = this.#cardsResource.isLoading
+	readonly error = computed(() => this.#cardsResource.error()?.message ?? null)
 
 	setSearchTerm(term: string): void {
 		this.searchValue.set(term)
@@ -38,30 +48,10 @@ export class CardsService {
 
 	goToPage(page: number): void {
 		this.currentPage.set(page)
-		this.fetchCards()
 	}
 
-	fetchCards(): void {
-		this.loading.set(true)
-
-		const term = this.searchValue().trim()
-		const params: Record<string, string | number> = {
-			num: PAGE_SIZE,
-			offset: (this.currentPage() - 1) * PAGE_SIZE,
-		}
-		if (term) {
-			params['fname'] = term
-		}
-
-		this.#http
-			.get<CardApiResponse>(this.#ygoprodeckurl, { params })
-			.pipe(
-		)
-			.subscribe(res => {
-				this.cards.set(res.data ?? [])
-				this.totalPages.set(res.meta?.total_pages ?? 1)
-				this.loading.set(false)
-			})
+	reload(): void {
+		this.#cardsResource.reload()
 	}
 
 	getCardById(id: string): Observable<Card | null> {
