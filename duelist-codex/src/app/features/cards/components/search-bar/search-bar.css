@@ -1,0 +1,14 @@
+.search-bar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.search-bar select {
+	padding: 0.25rem;
+}
+
+.clear-criteria {
+	cursor: pointer;
+}
