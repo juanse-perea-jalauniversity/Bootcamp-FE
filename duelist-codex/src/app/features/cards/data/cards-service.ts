@@ -15,7 +15,7 @@ export class CardsService {
 
 	readonly searchValue = signal("")
 	readonly typeFilter = signal("")
-	readonly attributeFilter = signal("")
+	readonly attributeFilters = signal<string[]>([])
 
 	readonly #debouncedSearch = toSignal(
 		toObservable(this.searchValue).pipe(
@@ -29,7 +29,7 @@ export class CardsService {
 	readonly #criteria = computed<SearchCriteria>(() => ({
 		fname: this.#debouncedSearch(),
 		type: this.typeFilter(),
-		attribute: this.attributeFilter(),
+		attribute: this.attributeFilters().join(','),
 	}))
 
 	readonly hasActiveCriteria = computed(() => {
@@ -70,14 +70,16 @@ export class CardsService {
 		this.typeFilter.set(type)
 	}
 
-	setAttributeFilter(attribute: string): void {
-		this.attributeFilter.set(attribute)
+	toggleAttributeFilter(attribute: string): void {
+		this.attributeFilters.update(current => current.includes(attribute)
+			? current.filter(active => active !== attribute)
+			: [...current, attribute])
 	}
 
 	clearCriteria(): void {
 		this.searchValue.set("")
 		this.typeFilter.set("")
-		this.attributeFilter.set("")
+		this.attributeFilters.set([])
 	}
 
 	goToPage(page: number): void {

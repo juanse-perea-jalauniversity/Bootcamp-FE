@@ -8,12 +8,22 @@
     }
   </select>
 
-  <select name="filter-attribute" id="filter-attribute" aria-label="Filter by attribute" [value]="attributeFilter()" (change)="onChangeAttribute($event)">
-    <option value="">All attributes</option>
-    @for (attribute of attributes; track attribute) {
-      <option [value]="attribute">{{ attribute }}</option>
+  <div class="multi-select">
+    <button type="button" class="multi-select-toggle" aria-haspopup="true" [attr.aria-expanded]="attributePanelOpen()" (click)="toggleAttributePanel()">
+      {{ attributeLabel() }}
+    </button>
+
+    @if (attributePanelOpen()) {
+      <div class="multi-select-panel" role="group" aria-label="Filter by attribute">
+        @for (attribute of attributes; track attribute) {
+          <label class="multi-select-option">
+            <input type="checkbox" [checked]="isAttributeSelected(attribute)" (change)="onToggleAttribute(attribute)">
+            {{ attribute }}
+          </label>
+        }
+      </div>
     }
-  </select>
+  </div>
 
   @if (hasActiveCriteria()) {
     <button type="button" class="clear-criteria" (click)="onClearCriteria()">Clear filters</button>
