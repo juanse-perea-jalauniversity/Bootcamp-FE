@@ -11,6 +11,14 @@
     </nav>
 
     <router-outlet />
+
+    @defer (on interaction) {
+      <card-printings [printings]="card.card_sets ?? []" />
+    } @placeholder {
+      <p class="printings-status">Scroll to load the printings of this card</p>
+    } @loading (minimum 3000ms) {
+      <p class="printings-status">Loading printings…</p>
+    }
   } @else {
     <div class="not-found">
       <p>Card not found.</p>

@@ -188,5 +188,9 @@ readonly currentPage = linkedSignal({
 	})
 ```
 
+### Why setting a new section on card detail to show defer instead of the existing tabs
 
+I chose to add a new section on the card details to demonstrate the @defer functionality instead of using the existing tabs, becasue the tabs (effect, statistics, price) content is already lazy loaded by using loadComponent. So, in this case, using @defer again would be redundant.
+
+That's why I added a new section showing "card_sets", that is not a new route but part of the card-detail componennt itself, so that the advantages of using @defer are really differenciated from lazy loading the route.
 

@@ -1,0 +1,38 @@
+.printings {
+	margin-top: 1.5rem;
+}
+
+.printings h2 {
+	font-size: 1rem;
+	margin: 0 0 0.5rem;
+}
+
+.printings-scroll {
+	overflow-x: auto;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.8rem;
+}
+
+th,
+td {
+	text-align: left;
+	padding: 0.35rem 0.5rem;
+	border-bottom: 1px solid rgb(255 255 255 / 0.12);
+	white-space: nowrap;
+}
+
+th {
+	font-size: 0.7rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	opacity: 0.7;
+}
+
+.muted {
+	opacity: 0.7;
+	font-size: 0.85rem;
+}
