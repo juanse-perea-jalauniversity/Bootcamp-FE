@@ -58,6 +58,9 @@ export class CardsService {
 	})
 
 	readonly cards = computed(() => this.#cardsResource.value()?.data ?? [])
+	readonly totalPages = computed(() => this.#cardsResource.value()?.meta?.total_pages ?? 1)
+	readonly loading = this.#cardsResource.isLoading
+	readonly error = computed(() => this.#cardsResource.error()?.message ?? null)
 
 	// * Left commented code for demostration purposes.
 	// readonly focusedCard = linkedSignal<Card[], Card | null>({
@@ -67,16 +70,14 @@ export class CardsService {
 	// 		if (!current) {
 	// 			return null
 	// 		}
-	//
+
+	// 		console.log("linkedSignal triggered")
+
 	// 		return cards.find(card => card.id === current.id) ?? current
 	// 	},
 	// })
 
 	readonly focusedCard = signal<Card | null>(null)
-
-	readonly totalPages = computed(() => this.#cardsResource.value()?.meta?.total_pages ?? 1)
-	readonly loading = this.#cardsResource.isLoading
-	readonly error = computed(() => this.#cardsResource.error()?.message ?? null)
 
 	setSearchTerm(term: string): void {
 		this.searchValue.set(term)
