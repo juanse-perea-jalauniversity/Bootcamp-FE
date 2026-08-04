@@ -15,7 +15,10 @@
           [featuredCard]="card"
           [cardInfo]="card"
           [isFavorite]="collection.isFavorite(card.id)"
+          [isFocused]="isFocused(card.id)"
+          [class.is-focused]="isFocused(card.id)"
           (favoriteToggle)="collection.toggle($event)"
+          (focusToggle)="onFocusToggle($event)"
         ></card-slot>
       </a>
     }

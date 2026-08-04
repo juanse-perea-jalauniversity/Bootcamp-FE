@@ -1,0 +1,19 @@
+@if (focusedCard(); as card) {
+  <aside class="focus-panel">
+    <img class="focus-thumb" [src]="card.card_images[0].image_url_small" alt="">
+
+    <div class="focus-info">
+      <p class="focus-label">In focus</p>
+      <p class="focus-name">{{ card.name }}</p>
+      <p class="focus-type">{{ card.type }}</p>
+    </div>
+
+    <div class="focus-actions">
+      <a class="focus-detail-link" [routerLink]="['/card', card.id]">View detail</a>
+      <button type="button" (click)="onAddToCollection(card)">
+        {{ collection.isFavorite(card.id) ? 'Remove from collection' : 'Add to collection' }}
+      </button>
+      <button type="button" (click)="onClear()">Clear focus</button>
+    </div>
+  </aside>
+}

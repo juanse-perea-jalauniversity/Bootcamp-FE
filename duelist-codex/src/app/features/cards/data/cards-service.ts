@@ -58,6 +58,22 @@ export class CardsService {
 	})
 
 	readonly cards = computed(() => this.#cardsResource.value()?.data ?? [])
+
+	// * Left commented code for demostration purposes.
+	// readonly focusedCard = linkedSignal<Card[], Card | null>({
+	// 	source: this.cards,
+	// 	computation: (cards, previous) => {
+	// 		const current = previous?.value
+	// 		if (!current) {
+	// 			return null
+	// 		}
+	//
+	// 		return cards.find(card => card.id === current.id) ?? current
+	// 	},
+	// })
+
+	readonly focusedCard = signal<Card | null>(null)
+
 	readonly totalPages = computed(() => this.#cardsResource.value()?.meta?.total_pages ?? 1)
 	readonly loading = this.#cardsResource.isLoading
 	readonly error = computed(() => this.#cardsResource.error()?.message ?? null)
@@ -88,6 +104,18 @@ export class CardsService {
 
 	reload(): void {
 		this.#cardsResource.reload()
+	}
+
+	isFocused(id: number): boolean {
+		return this.focusedCard()?.id === id
+	}
+
+	toggleFocusedCard(card: Card): void {
+		this.focusedCard.set(this.isFocused(card.id) ? null : card)
+	}
+
+	clearFocusedCard(): void {
+		this.focusedCard.set(null)
 	}
 
 	getCardById(id: string): Observable<Card | null> {

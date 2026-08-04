@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Card } from '../../data/card.model';
 import { CardsService } from '../../data/cards-service';
 import { CollectionService } from '../../data/collection-service';
 import { CardSlot } from "../card-slot/card-slot";
@@ -21,6 +22,14 @@ export class CardGrid {
   readonly loading = this.#cardService.loading;
   readonly error = this.#cardService.error;
   readonly currentPage = this.#cardService.currentPage;
+
+  isFocused(id: number): boolean {
+    return this.#cardService.isFocused(id);
+  }
+
+  onFocusToggle(card: Card): void {
+    this.#cardService.toggleFocusedCard(card);
+  }
 
   onPageChange(page: number): void {
     this.#cardService.goToPage(page);

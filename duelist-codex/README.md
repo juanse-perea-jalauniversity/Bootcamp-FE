@@ -173,5 +173,20 @@ Two consequences worth pointing out:
 * Rethrowing (instead of swallowing) is what lets `httpResource` populate its `error()` state. Returning a fallback value would make the resource look successful and the error branch of the template would never run.
 * Some filter combinations are impossible by design — `type=Spell Card` + `attribute=DARK`, since spells have no attribute. The API answers `400`, the interceptor turns it into an empty result, and the grid shows "No cards match your search" instead of an error. That criteria of HU-04 is satisfied by the error handling built for HU-02.
 
+### Why focused card uses signal instead of computed or linkedSignal
+
+The concept of having a focused card is that this will be a selected card that is shown besides the card grid, independent of what happens, whereas I make a new search, add filters, or change page, the focused card should remain intact. Because of this, the state that holds the focused card shouldn't depend of what happend outside it, except for user interaction with the options of toggle focus or clear focus.
+
+Knowing this, using computed or linkedSignal doesn't sound like a good idea, because there shouldn't be another state that the focused card depends on. 
+
+A use case where linkedSignal can help more is on the pagination, because if I'm on page 5, but apply some filter and/or do a search, the resulting cards will be different, and even have less than 5 pages, so it makes sense to reset the pagination when the cards changes, as showing here (#criteria is the filters state):
+
+```javascript
+readonly currentPage = linkedSignal({
+		source: this.#criteria,
+		computation: () => 1,
+	})
+```
+
 
 

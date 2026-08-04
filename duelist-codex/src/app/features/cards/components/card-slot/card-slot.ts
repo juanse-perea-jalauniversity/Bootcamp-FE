@@ -12,11 +12,19 @@ import { FeaturedStars } from '../../directives/featured-stars';
 export class CardSlot {
   readonly cardInfo = input.required<Card>();
   readonly isFavorite = input<boolean>(false);
+  readonly isFocused = input<boolean>(false);
   readonly favoriteToggle = output<Card>();
+  readonly focusToggle = output<Card>();
 
   onFavorite(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
     this.favoriteToggle.emit(this.cardInfo());
+  }
+
+  onFocus(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.focusToggle.emit(this.cardInfo());
   }
 }
