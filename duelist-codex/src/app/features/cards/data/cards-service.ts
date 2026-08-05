@@ -1,7 +1,6 @@
 import { HttpClient, httpResource } from '@angular/common/http';
-import { computed, inject, linkedSignal, Service, signal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { catchError, debounceTime, distinctUntilChanged, map, of, type Observable } from 'rxjs';
+import { computed, debounced, inject, linkedSignal, Service, signal } from '@angular/core';
+import { catchError, map, of, type Observable } from 'rxjs';
 import { Card, CardApiResponse } from './card.model';
 import { SearchCriteria } from './filters';
 
@@ -17,17 +16,10 @@ export class CardsService {
 	readonly typeFilter = signal("")
 	readonly attributeFilters = signal<string[]>([])
 
-	readonly #debouncedSearch = toSignal(
-		toObservable(this.searchValue).pipe(
-			debounceTime(SEARCH_DEBOUNCE_MS),
-			map(term => term.trim()),
-			distinctUntilChanged(),
-		),
-		{ initialValue: "" },
-	)
+	readonly #debouncedSearch = debounced(() => this.searchValue().trim(), SEARCH_DEBOUNCE_MS)
 
 	readonly #criteria = computed<SearchCriteria>(() => ({
-		fname: this.#debouncedSearch(),
+		fname: this.#debouncedSearch.value(),
 		type: this.typeFilter(),
 		attribute: this.attributeFilters().join(','),
 	}))
