@@ -1,3 +1,31 @@
 <div class="search-bar">
-  <input type="search" name="search-cards" id="search-cards" placeholder="Search cards by name…" (input)="onChangeSearch($event)">
+  <input type="search" name="search-cards" id="search-cards" placeholder="Search cards by name…" [value]="searchValue()" (input)="onChangeSearch($event)" autofocus>
+
+  <select name="filter-type" id="filter-type" aria-label="Filter by card type" [value]="typeFilter()" (change)="onChangeType($event)">
+    <option value="">All types</option>
+    @for (type of types; track type) {
+      <option [value]="type">{{ type }}</option>
+    }
+  </select>
+
+  <div class="multi-select">
+    <button type="button" class="multi-select-toggle" aria-haspopup="true" [attr.aria-expanded]="attributePanelOpen()" (click)="toggleAttributePanel()">
+      {{ attributeLabel() }}
+    </button>
+
+    @if (attributePanelOpen()) {
+      <div class="multi-select-panel" role="group" aria-label="Filter by attribute">
+        @for (attribute of attributes; track attribute) {
+          <label class="multi-select-option">
+            <input type="checkbox" [checked]="isAttributeSelected(attribute)" (change)="onToggleAttribute(attribute)">
+            {{ attribute }}
+          </label>
+        }
+      </div>
+    }
+  </div>
+
+  @if (hasActiveCriteria()) {
+    <button type="button" class="clear-criteria" (click)="onClearCriteria()">Clear filters</button>
+  }
 </div>

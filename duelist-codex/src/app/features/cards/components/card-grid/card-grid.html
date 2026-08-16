@@ -1,26 +1,34 @@
-<div class="card-grid">
-  @if (loading()) {
-    <p>Loading...</p>
-  } @else if (cards().length === 0) {
-    <p>No cards found.</p>
-  } @else {
+@if (loading()) {
+  <p class="grid-status">Loading cards…</p>
+} @else if (error()) {
+  <div class="grid-status grid-error">
+    <p>{{ error() }}</p>
+    <button type="button" (click)="onRetry()">Try again</button>
+  </div>
+} @else if (cards().length === 0) {
+  <p class="grid-status">No cards match your search.</p>
+} @else {
+  <div class="card-grid">
     @for (card of cards(); track card.id) {
       <a class="card-link" [routerLink]="['/card', card.id]">
         <card-slot
           [featuredCard]="card"
           [cardInfo]="card"
           [isFavorite]="collection.isFavorite(card.id)"
+          [isFocused]="isFocused(card.id)"
+          [class.is-focused]="isFocused(card.id)"
           (favoriteToggle)="collection.toggle($event)"
+          (focusToggle)="onFocusToggle($event)"
         ></card-slot>
       </a>
     }
-  }
-</div>
+  </div>
 
-@if (totalPages() > 1) {
-  <pagination
-    [currentPage]="currentPage()"
-    [totalPages]="totalPages()"
-    (pageChange)="onPageChange($event)"
-  />
+  @if (totalPages() > 1) {
+    <pagination
+      [currentPage]="currentPage()"
+      [totalPages]="totalPages()"
+      (pageChange)="onPageChange($event)"
+    />
+  }
 }

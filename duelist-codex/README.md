@@ -113,3 +113,84 @@ Some decisions worth noting:
 * `usernameGuard` returns a `UrlTree` instead of calling `router.navigate`, which is the recommended way: the redirect is part of the same navigation and the guard stays free of side effects. It carries `returnUrl` so after the setup form the user lands back where they wanted to go.
 * `withRouterConfig({ paramsInheritanceStrategy: 'always' })` is enabled so the child tab routes can read the `:id` param and the resolved `card` from the parent.
 
+## CHALLENGE 3
+
+### Search and filter criteria
+
+The catalog can now be narrowed by three criteria that work independently or combined. All of them are resolved **by the API**, not in the browser: filtering the 12 cards of the current page locally would have been a bug as soon as pagination is involved.
+
+| Criteria | UI control | Signal in `CardsService` | API param | Notes |
+| --- | --- | --- | --- | --- |
+| Name | Text input (autofocused) | `searchValue` | `fname` | Fuzzy search, so partial names match. Debounced 400 ms |
+| Card type | `All types` dropdown, single choice | `typeFilter` | `type` | 10 values (`Effect Monster`, `Spell Card`, `Trap Card`, …) from `CARD_TYPES` |
+| Attribute | Custom dropdown with checkboxes, **multiple choice** | `attributeFilters` | `attribute` | 7 values (`DARK`, `LIGHT`, `EARTH`, `WATER`, `FIRE`, `WIND`, `DIVINE`) from `CARD_ATTRIBUTES` |
+
+An empty criteria means the param is simply not sent, so clearing everything returns to the general catalog instead of an error. A `Clear filters` button appears whenever at least one criteria is active.
+
+The API guide documents that `attribute` accepts a comma separated list, and it behaves as an **OR**: `attribute=DARK` returns 2698 cards, `attribute=DARK,LIGHT` returns 4666. So the attribute filter keeps a `string[]` signal and joins it with commas when building the params, which means one request no matter how many attributes are ticked.
+
+A native `<select multiple>` was not an option because it needs ctrl/cmd+click and shows no checkboxes, so the control is a button plus a panel of checkboxes. The panel closes on outside click or `Escape` (both wired through the component `host`), and the button label collapses to `All attributes` / the attribute name / `N attributes` depending on how many are selected.
+
+The three criteria are combined in **one** place, a `computed()` in `CardsService`:
+
+```ts
+readonly #criteria = computed<SearchCriteria>(() => ({
+	fname: this.#debouncedSearch(),
+	type: this.typeFilter(),
+	attribute: this.attributeFilters().join(','),
+}))
+```
+
+`httpResource` reads that object and spreads in only the non-empty entries, so every filter handler in the search bar is a one line `.set()` and no component builds query params itself. I chose `computed()` over `combineLatest` here because the three sources are already signals — using RxJS would have meant converting them out and back for nothing. The RxJS interop is used where it actually pays off, which is the debounce.
+
+### Endpoints and parameters
+
+Everything still goes to a single endpoint, `GET https://db.ygoprodeck.com/api/v7/cardinfo.php`. This table replaces the Challenge 2 one, since `fetchCards()` no longer exists:
+
+| Caller | Query params sent | Used by | What it is for |
+| --- | --- | --- | --- |
+| `#cardsResource` (`httpResource`) | `num=12`, `offset=(page-1)*12`, plus `fname` / `type` / `attribute=<a,a,a>` when active | `/` (grid, search bar, filters, pagination) | The catalog. Re-fetches by itself whenever any of the signals it reads changes |
+| `getCardById(id)` | `id=<id>` | `cardResolver` → `/card/:id` | Single card for the detail route. Stays on `HttpClient` because a resolver needs a one shot Observable |
+| `getCardsByIds(ids)` | `id=<id,id,id>` | `/collection` | The `id` param takes a comma separated list, so the whole favorites collection is one request instead of N |
+
+### How the reactive chain is wired
+
+1. Typing updates `searchValue` on every keystroke.
+2. `toObservable → debounceTime(400) → distinctUntilChanged → toSignal` turns that into `#debouncedSearch`, so the API is not hit per keystroke.
+3. `#criteria` combines it with the two dropdown signals.
+4. `currentPage` is a `linkedSignal` **sourced from `#criteria`**, so any change of criteria resets to page 1. It is not a `computed()` because the pagination still has to write to it. Without this, filtering while on page 4 would request `offset=36` of a result set that may only have 5 cards.
+5. `httpResource` rebuilds its request from `#criteria` + `currentPage` and exposes `isLoading()`, `error()` and `value()`, which the grid renders directly. No more manual `loading` signal or `.subscribe()`.
+
+### API quirks handled by the interceptor
+
+`cardinfo.php` answers **`400`** when a query has no matches (body: `{"error":"No card matching your query was found..."}`), which is a success case dressed as an error. `errorInterceptor` translates that single case into an empty `200` response and rethrows everything else as an `Error` with a readable message:
+
+* status `0` → "We couldn't reach the card database…"
+* status `5xx` → "The card database is not responding right now…"
+
+Two consequences worth pointing out:
+
+* Rethrowing (instead of swallowing) is what lets `httpResource` populate its `error()` state. Returning a fallback value would make the resource look successful and the error branch of the template would never run.
+* Some filter combinations are impossible by design — `type=Spell Card` + `attribute=DARK`, since spells have no attribute. The API answers `400`, the interceptor turns it into an empty result, and the grid shows "No cards match your search" instead of an error. That criteria of HU-04 is satisfied by the error handling built for HU-02.
+
+### Why focused card uses signal instead of computed or linkedSignal
+
+The concept of having a focused card is that this will be a selected card that is shown besides the card grid, independent of what happens, whereas I make a new search, add filters, or change page, the focused card should remain intact. Because of this, the state that holds the focused card shouldn't depend of what happend outside it, except for user interaction with the options of toggle focus or clear focus.
+
+Knowing this, using computed or linkedSignal doesn't sound like a good idea, because there shouldn't be another state that the focused card depends on. 
+
+A use case where linkedSignal can help more is on the pagination, because if I'm on page 5, but apply some filter and/or do a search, the resulting cards will be different, and even have less than 5 pages, so it makes sense to reset the pagination when the cards changes, as showing here (#criteria is the filters state):
+
+```javascript
+readonly currentPage = linkedSignal({
+		source: this.#criteria,
+		computation: () => 1,
+	})
+```
+
+### Why setting a new section on card detail to show defer instead of the existing tabs
+
+I chose to add a new section on the card details to demonstrate the @defer functionality instead of using the existing tabs, becasue the tabs (effect, statistics, price) content is already lazy loaded by using loadComponent. So, in this case, using @defer again would be redundant.
+
+That's why I added a new section showing "card_sets", that is not a new route but part of the card-detail componennt itself, so that the advantages of using @defer are really differenciated from lazy loading the route.
+

@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Service, signal } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { catchError, debounceTime, distinctUntilChanged, map, of, skip, type Observable } from 'rxjs';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { computed, debounced, inject, linkedSignal, Service, signal } from '@angular/core';
+import { catchError, map, of, type Observable } from 'rxjs';
 import { Card, CardApiResponse } from './card.model';
+import { SearchCriteria } from './filters';
 
 const PAGE_SIZE = 12;
+const SEARCH_DEBOUNCE_MS = 400;
 
 @Service()
 export class CardsService {
@@ -12,57 +13,102 @@ export class CardsService {
 	readonly #ygoprodeckurl = 'https://db.ygoprodeck.com/api/v7/cardinfo.php'
 
 	readonly searchValue = signal("")
-	readonly currentPage = signal(1)
+	readonly typeFilter = signal("")
+	readonly attributeFilters = signal<string[]>([])
 
-	readonly cards = signal<Card[]>([])
-	readonly totalPages = signal(1)
-	readonly loading = signal(true)
+	readonly #debouncedSearch = debounced(() => this.searchValue().trim(), SEARCH_DEBOUNCE_MS)
 
-	constructor() {
-		toObservable(this.searchValue)
-			.pipe(
-				skip(1),
-				debounceTime(1000),
-				distinctUntilChanged(),
-				takeUntilDestroyed(),
-			)
-			.subscribe(() => {
-				this.currentPage.set(1)
-				this.fetchCards()
-			})
-	}
+	readonly #criteria = computed<SearchCriteria>(() => ({
+		fname: this.#debouncedSearch.value(),
+		type: this.typeFilter(),
+		attribute: this.attributeFilters().join(','),
+	}))
+
+	readonly hasActiveCriteria = computed(() => {
+		const { fname, type, attribute } = this.#criteria()
+		return Boolean(fname || type || attribute)
+	})
+
+	readonly currentPage = linkedSignal({
+		source: this.#criteria,
+		computation: () => 1,
+	})
+
+	readonly #cardsResource = httpResource<CardApiResponse>(() => {
+		const { fname, type, attribute } = this.#criteria()
+
+		return {
+			url: this.#ygoprodeckurl,
+			params: {
+				num: PAGE_SIZE,
+				offset: (this.currentPage() - 1) * PAGE_SIZE,
+				...(fname && { fname }),
+				...(type && { type }),
+				...(attribute && { attribute }),
+			},
+		}
+	})
+
+	readonly cards = computed(() => this.#cardsResource.value()?.data ?? [])
+	readonly totalPages = computed(() => this.#cardsResource.value()?.meta?.total_pages ?? 1)
+	readonly loading = this.#cardsResource.isLoading
+	readonly error = computed(() => this.#cardsResource.error()?.message ?? null)
+
+	// * Left commented code for demostration purposes.
+	// readonly focusedCard = linkedSignal<Card[], Card | null>({
+	// 	source: this.cards,
+	// 	computation: (cards, previous) => {
+	// 		const current = previous?.value
+	// 		if (!current) {
+	// 			return null
+	// 		}
+
+	// 		console.log("linkedSignal triggered")
+
+	// 		return cards.find(card => card.id === current.id) ?? current
+	// 	},
+	// })
+
+	readonly focusedCard = signal<Card | null>(null)
 
 	setSearchTerm(term: string): void {
 		this.searchValue.set(term)
 	}
 
-	goToPage(page: number): void {
-		this.currentPage.set(page)
-		this.fetchCards()
+	setTypeFilter(type: string): void {
+		this.typeFilter.set(type)
 	}
 
-	fetchCards(): void {
-		this.loading.set(true)
+	toggleAttributeFilter(attribute: string): void {
+		this.attributeFilters.update(current => current.includes(attribute)
+			? current.filter(active => active !== attribute)
+			: [...current, attribute])
+	}
 
-		const term = this.searchValue().trim()
-		const params: Record<string, string | number> = {
-			num: PAGE_SIZE,
-			offset: (this.currentPage() - 1) * PAGE_SIZE,
-		}
-		if (term) {
-			params['fname'] = term
-		}
+	clearCriteria(): void {
+		this.searchValue.set("")
+		this.typeFilter.set("")
+		this.attributeFilters.set([])
+	}
 
-		this.#http
-			.get<CardApiResponse>(this.#ygoprodeckurl, { params })
-			.pipe(
-				catchError(() => of<CardApiResponse>({ data: [] })),
-			)
-			.subscribe(res => {
-				this.cards.set(res.data ?? [])
-				this.totalPages.set(res.meta?.total_pages ?? 1)
-				this.loading.set(false)
-			})
+	goToPage(page: number): void {
+		this.currentPage.set(page)
+	}
+
+	reload(): void {
+		this.#cardsResource.reload()
+	}
+
+	isFocused(id: number): boolean {
+		return this.focusedCard()?.id === id
+	}
+
+	toggleFocusedCard(card: Card): void {
+		this.focusedCard.set(this.isFocused(card.id) ? null : card)
+	}
+
+	clearFocusedCard(): void {
+		this.focusedCard.set(null)
 	}
 
 	getCardById(id: string): Observable<Card | null> {

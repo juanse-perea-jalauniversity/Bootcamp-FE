@@ -1,0 +1,52 @@
+.search-bar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.search-bar select {
+	padding: 0.25rem;
+}
+
+.multi-select {
+	position: relative;
+}
+
+.multi-select-toggle {
+	padding: 0.25rem 0.5rem;
+	cursor: pointer;
+}
+
+.multi-select-toggle::after {
+	content: ' ▾';
+}
+
+.multi-select-panel {
+	position: absolute;
+	top: calc(100% + 0.25rem);
+	left: 0;
+	z-index: 10;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	padding: 0.5rem;
+	min-width: 10rem;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 4px;
+	background: canvas;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.multi-select-option {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	cursor: pointer;
+	white-space: nowrap;
+	color: black;
+}
+
+.clear-criteria {
+	cursor: pointer;
+}

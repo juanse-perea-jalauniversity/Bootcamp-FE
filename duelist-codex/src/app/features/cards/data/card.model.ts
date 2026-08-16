@@ -6,6 +6,14 @@ export interface CardPrice {
 	coolstuffinc_price: string;
 }
 
+export interface CardSet {
+	set_name: string;
+	set_code: string;
+	set_rarity: string;
+	set_rarity_code?: string;
+	set_price: string;
+}
+
 export interface Card {
 	id: number;
 	name: string;
@@ -21,6 +29,7 @@ export interface Card {
 	level?: number;
 	attribute?: string;
 	card_images: { image_url: string; image_url_small: string }[];
+	card_sets?: CardSet[];
 	card_prices?: CardPrice[];
 }
 

@@ -5,6 +5,7 @@
 	display: flex;
 	flex-direction: column;
 	max-width: 150px;
+	min-height: 300px;
 	overflow: hidden;
 	background-color: var(--surface-2);
 }
@@ -38,6 +39,36 @@
 
 .favorite-btn.active {
 	color: gold;
+}
+
+.focus-btn {
+	position: absolute;
+	top: 6px;
+	left: 6px;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: rgb(0 0 0 / 0.55);
+	color: rgb(255 255 255 / 0.75);
+	font-size: 1rem;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.focus-btn:hover {
+	background: rgb(0 0 0 / 0.75);
+}
+
+.focus-btn.active {
+	color: deepskyblue;
+}
+
+:host(.is-focused) .card-slot {
+	border-color: deepskyblue;
+	outline: 2px solid deepskyblue;
+	outline-offset: -2px;
 }
 
 .card-slot img {

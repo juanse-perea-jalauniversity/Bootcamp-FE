@@ -1,0 +1,30 @@
+<section class="printings">
+  <h2>Printings</h2>
+
+  @if (printings().length === 0) {
+    <p class="muted">This card has no registered printings.</p>
+  } @else {
+    <div class="printings-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Set</th>
+            <th>Code</th>
+            <th>Rarity</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (printing of printings(); track printing.set_code) {
+            <tr>
+              <td>{{ printing.set_name }}</td>
+              <td>{{ printing.set_code }}</td>
+              <td>{{ printing.set_rarity }}</td>
+              <td>{{ printing.set_price | cardPrice: 'USD' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

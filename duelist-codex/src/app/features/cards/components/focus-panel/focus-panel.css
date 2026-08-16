@@ -1,0 +1,64 @@
+.focus-panel {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	width: 80%;
+	margin: 0 auto 1rem;
+	padding: 0.5rem 0.75rem;
+	border: 1px solid deepskyblue;
+	border-radius: 6px;
+	background-color: var(--surface-2);
+}
+
+.focus-thumb {
+	width: 44px;
+	border-radius: 3px;
+}
+
+.focus-info {
+	flex: 1;
+	min-width: 0;
+}
+
+.focus-label {
+	margin: 0;
+	font-size: 0.65rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: deepskyblue;
+}
+
+.focus-name {
+	margin: 0;
+	font-weight: bold;
+	font-size: 0.9rem;
+}
+
+.focus-type {
+	margin: 0;
+	font-size: 0.7rem;
+	opacity: 0.75;
+}
+
+.focus-actions {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.focus-actions button {
+	cursor: pointer;
+	padding: 0.25rem 0.5rem;
+}
+
+.focus-detail-link {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.25rem 0.5rem;
+	color: deepskyblue;
+	font-size: 0.85rem;
+	text-decoration: none;
+}
+
+.focus-detail-link:hover {
+	text-decoration: underline;
+}

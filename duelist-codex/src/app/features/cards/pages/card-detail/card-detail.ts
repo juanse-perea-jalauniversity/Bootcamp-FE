@@ -1,11 +1,12 @@
 import { Component, input } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CardDetailHeader } from '../../components/card-detail-header/card-detail-header';
+import { CardPrintings } from '../../components/card-printings/card-printings';
 import { Card } from '../../data/card.model';
 
 @Component({
   selector: 'card-detail',
-  imports: [RouterLink, RouterLinkActive, RouterOutlet, CardDetailHeader],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet, CardDetailHeader, CardPrintings],
   templateUrl: './card-detail.html',
   styleUrl: './card-detail.css',
 })
