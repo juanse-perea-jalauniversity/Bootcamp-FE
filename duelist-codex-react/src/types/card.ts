@@ -13,6 +13,7 @@ export interface Card {
 	level?: number;
 	attribute?: string;
 	card_images: { image_url: string; image_url_small: string }[];
+	card_prices?: CardPrices[];
 }
 
 export interface YgoprodeckApiData {
@@ -29,4 +30,11 @@ export interface meta {
 	rows_remaining: number;
 	total_pages: number;
 	total_rows: number;
+}
+export interface CardPrices {
+	cardmarket_price: string;
+	tcgplayer_price: string;
+	ebay_price: string;
+	amazon_price: string;
+	coolstuff_price: string;
 }

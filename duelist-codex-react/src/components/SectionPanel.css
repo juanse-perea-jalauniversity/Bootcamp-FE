@@ -1,0 +1,49 @@
+.dc-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--dc-surface);
+  border: 1px solid var(--dc-border);
+  border-radius: var(--dc-radius-lg);
+}
+
+.dc-panel__tabs {
+  display: flex;
+  gap: var(--dc-space-1);
+  padding: var(--dc-space-2) var(--dc-space-2) 0;
+  overflow-x: auto;
+  background-color: var(--dc-surface-raised);
+  border-bottom: 1px solid var(--dc-border);
+}
+
+.dc-panel__tab {
+  flex: 0 0 auto;
+  padding: var(--dc-space-3) var(--dc-space-5);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--dc-text-muted);
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: var(--dc-radius-sm) var(--dc-radius-sm) 0 0;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.dc-panel__tab:hover {
+  color: var(--dc-text);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.dc-panel__tab--active {
+  color: var(--dc-accent-strong);
+  border-bottom-color: var(--dc-accent);
+}
+
+.dc-panel__body {
+  padding: var(--dc-space-5);
+}
+
+.dc-panel__body:focus-visible {
+  outline-offset: -3px;
+}

@@ -1,12 +1,40 @@
-import { useFetchCards } from "../hooks/useFetchCards"
+import type { Card } from "../types/card"
+import { CardItem } from "./CardItem"
+import "./CardGrid.css"
 
-export function CardGrid() {
-  const cards = useFetchCards()
+type CardGridProps = {
+  cards: Card[]
+  onSelectCard: (card: Card) => void
+}
+
+export function CardGrid({ cards, onSelectCard }: CardGridProps) {
   return (
-    <>
-      {
-        cards.map(card => <img key={card.id} src={card.card_images[0].image_url_small} alt="card" />)
-      }
-    </>
+    <ul className="dc-grid">
+      {cards.map((card) => (
+        <li key={card.id} className="dc-grid__cell">
+          <CardItem card={card} onSelect={onSelectCard} />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+type CardGridSkeletonProps = {
+  count?: number
+}
+
+export function CardGridSkeleton({ count = 12 }: CardGridSkeletonProps) {
+  return (
+    <ul className="dc-grid" aria-hidden="true">
+      {Array.from({ length: count }, (_, index) => (
+        <li key={index} className="dc-grid__cell">
+          <div className="dc-skeleton">
+            <div className="dc-skeleton__frame" />
+            <div className="dc-skeleton__line" />
+            <div className="dc-skeleton__line dc-skeleton__line--short" />
+          </div>
+        </li>
+      ))}
+    </ul>
   )
 }
